@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 )
@@ -44,12 +43,4 @@ func (l *Lexer) Error(err string) {
 
 func (l *Lexer) AppendStmt(stmt Statement) {
 	l.stmts = append(l.stmts, stmt)
-}
-
-func Parse(sql string) ([]Statement, error) {
-	lexer := NewLexer(sql)
-	if yyParse(lexer) != 0 {
-		return nil, fmt.Errorf("error while parsing")
-	}
-	return lexer.stmts, nil
 }

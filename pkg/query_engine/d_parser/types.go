@@ -1,5 +1,24 @@
 package parser
 
+// Statement generic interface
+type Statement interface {
+	stmt()
+	travel()
+}
+
+// SelectStatement Select statement
+type SelectStatement struct {
+	Fields         Fields
+	Sources        Sources
+	WhereCondition *ExprNode
+}
+
+func (*SelectStatement) stmt() {}
+
+func (stmt *SelectStatement) travel() {
+
+}
+
 type Field struct {
 	Name string
 }
