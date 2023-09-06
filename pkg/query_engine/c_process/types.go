@@ -1,4 +1,4 @@
-package thread
+package process
 
 import (
 	batch "colexecdb/pkg/query_engine/b_batch"
@@ -10,11 +10,11 @@ type Register struct {
 	InputBatch *batch.Batch
 }
 
-type Thread struct {
+// Process is a heavyweight unit of execution that has its own memory space (Register)
+type Process struct {
 	Reg Register
 
-	Ctx context.Context
-
+	Ctx    context.Context
 	Cancel context.CancelFunc
 }
 
