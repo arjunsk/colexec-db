@@ -1,6 +1,8 @@
 package parser
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func Parse(sql string) ([]Statement, error) {
 	lexer := NewLexer(sql)

@@ -4,7 +4,6 @@ type T uint8
 
 const (
 	T_int32 T = iota
-	T_float32
 )
 
 type Type struct {
@@ -12,5 +11,5 @@ type Type struct {
 }
 
 type FixedSizeT interface {
-	~float32 | ~int32
+	~int32
 }

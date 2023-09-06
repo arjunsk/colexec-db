@@ -9,12 +9,11 @@ type Batch struct {
 	rowCount  int
 }
 
-func (bat *Batch) Last() bool {
-	return bat.Recursive > 0
-}
-
-func (bat *Batch) IsEmpty() bool {
-	return bat.rowCount == 0
+func NewWithSize(n int) *Batch {
+	return &Batch{
+		Vecs:     make([]*vector.Vector, n),
+		rowCount: 0,
+	}
 }
 
 func (bat *Batch) SetRowCount(rowCount int) {
@@ -25,9 +24,18 @@ func (bat *Batch) GetRowCount() int {
 	return bat.rowCount
 }
 
-func NewWithSize(n int) *Batch {
-	return &Batch{
-		Vecs:     make([]*vector.Vector, n),
-		rowCount: 0,
-	}
+func (bat *Batch) GetVector(pos int32) *vector.Vector {
+	return bat.Vecs[pos]
+}
+
+func (bat *Batch) SetVector(pos int32, vec *vector.Vector) {
+	bat.Vecs[pos] = vec
+}
+
+func (bat *Batch) Last() bool {
+	return bat.Recursive > 0
+}
+
+func (bat *Batch) IsEmpty() bool {
+	return bat.rowCount == 0
 }
