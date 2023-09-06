@@ -9,7 +9,7 @@ type Plan interface {
 }
 
 var _ Plan = new(QueryPlan)
-var _ Plan = new(DataDefinitionPlan)
+var _ Plan = new(DDLPlan)
 
 type StatementType uint8
 
@@ -27,9 +27,16 @@ func (q *QueryPlan) Optimize(_ []Optimizer) Plan {
 	return nil
 }
 
-type DataDefinitionPlan struct {
+type DdlType uint8
+
+const (
+	DdlCreateTable DdlType = iota
+)
+
+type DDLPlan struct {
+	Type DdlType
 }
 
-func (d *DataDefinitionPlan) Optimize(_ []Optimizer) Plan {
+func (d *DDLPlan) Optimize(_ []Optimizer) Plan {
 	return nil
 }

@@ -57,6 +57,6 @@ func buildInsert(stmt *ast.InsertStmt) (*QueryPlan, error) {
 	}, nil
 }
 
-func buildCreateTable(stmt *ast.CreateTableStmt) (*DataDefinitionPlan, error) {
-	return &DataDefinitionPlan{}, nil
+func buildCreateTable(stmt *ast.CreateTableStmt) (*DDLPlan, error) {
+	return &DDLPlan{}, nil
 }
