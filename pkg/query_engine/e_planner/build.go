@@ -21,27 +21,31 @@ func BuildPlan(stmt ast.StmtNode) (Plan, error) {
 
 func buildSelect(sel *ast.SelectStmt) (*QueryPlan, error) {
 	q := &QueryPlan{
-		statementType: SELECT,
+		StatementType: SELECT,
 	}
 
 	for _, selExpr := range sel.Fields.Fields {
 		switch selExpr := (selExpr.Expr).(type) {
 		case *ast.FuncCallExpr:
-			q.params = &ExprFunc{
-				typ:  types.T_int32.ToType(),
-				Name: selExpr.FnName.L,
-				Args: []Expr{
-					&ExprCol{
-						typ:     types.T_int32.ToType(),
-						ColName: selExpr.Args[0].(*ast.ColumnNameExpr).Name.Name.L,
+			q.Params = []Expr{
+				&ExprFunc{
+					typ:  types.T_int32.ToType(),
+					Name: selExpr.FnName.L,
+					Args: []Expr{
+						&ExprCol{
+							typ:     types.T_int32.ToType(),
+							ColName: selExpr.Args[0].(*ast.ColumnNameExpr).Name.Name.L,
+						},
 					},
 				},
 			}
 
 		case *ast.ColumnNameExpr:
-			q.params = &ExprCol{
-				typ:     types.T_int32.ToType(),
-				ColName: selExpr.Name.Name.L,
+			q.Params = []Expr{
+				&ExprCol{
+					typ:     types.T_int32.ToType(),
+					ColName: selExpr.Name.Name.L,
+				},
 			}
 		default:
 			return nil, errors.New("not supported")
@@ -53,7 +57,7 @@ func buildSelect(sel *ast.SelectStmt) (*QueryPlan, error) {
 
 func buildInsert(stmt *ast.InsertStmt) (*QueryPlan, error) {
 	return &QueryPlan{
-		statementType: INSERT,
+		StatementType: INSERT,
 	}, nil
 }
 

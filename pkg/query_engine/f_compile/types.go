@@ -43,6 +43,6 @@ type Source struct {
 	SchemaName   string
 	RelationName string
 	Attributes   []string
-	R            storage_engine.Reader
+	Reader       storage_engine.Reader
 	Bat          *batch.Batch
 }

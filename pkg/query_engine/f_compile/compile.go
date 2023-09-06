@@ -6,6 +6,9 @@ import (
 	"colexecdb/pkg/query_engine/d_parser"
 	planner "colexecdb/pkg/query_engine/e_planner"
 	scope "colexecdb/pkg/query_engine/g_scope"
+	relalgebra "colexecdb/pkg/query_engine/i_rel_algebra"
+	"colexecdb/pkg/query_engine/i_rel_algebra/projection"
+	"colexecdb/pkg/storage_engine"
 	"context"
 	"errors"
 )
@@ -35,10 +38,26 @@ func (c *Compile) Compile(ctx context.Context, pn planner.Plan, fill func(any, *
 func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*scope.Scope, error) {
 	switch qry := pn.(type) {
 	case *planner.QueryPlan:
-		return []*scope.Scope{{
-			Magic: Normal,
-			Plan:  pn,
-		}}, nil
+		rs := scope.Scope{
+			Magic:        Normal,
+			Plan:         pn,
+			Instructions: make(relalgebra.Instructions, 0),
+		}
+		rs.Instructions = append(rs.Instructions, relalgebra.Instruction{
+			Op: relalgebra.Projection,
+			Arg: &projection.Argument{
+				Es: qry.Params,
+			},
+		})
+		rs.DataSource = &Source{
+			Reader:     storage_engine.NewMergeReader(),
+			Attributes: []string{"Id", "Age"},
+		}
+
+		rs.Process = c.Process
+
+		return []*scope.Scope{&rs}, nil
+
 	case *planner.DDLPlan:
 		switch qry.Type {
 		case planner.DdlCreateTable:

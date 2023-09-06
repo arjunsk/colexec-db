@@ -19,8 +19,8 @@ const (
 )
 
 type QueryPlan struct {
-	statementType StatementType
-	params        Expr
+	StatementType StatementType
+	Params        []Expr
 }
 
 func (q *QueryPlan) Optimize(_ []Optimizer) Plan {

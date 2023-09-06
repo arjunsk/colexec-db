@@ -5,9 +5,9 @@ import (
 	"github.com/blastrain/vitess-sqlparser/tidbparser/parser"
 )
 
-type Statement = ast.Statement
+type Statement = ast.StmtNode
 
-func Parse(sql string) (ast.StmtNode, error) {
+func Parse(sql string) (Statement, error) {
 	p := parser.New()
 	return p.ParseOneStmt(sql, "", "")
 }
