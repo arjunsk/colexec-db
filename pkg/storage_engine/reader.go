@@ -5,17 +5,17 @@ import (
 	"context"
 )
 
-type mergeReader struct {
+type MergeReader struct {
 }
 
-func NewMergeReader() *mergeReader {
-	return &mergeReader{}
+func NewMergeReader() *MergeReader {
+	return &MergeReader{}
 }
 
-func (m *mergeReader) Read(ctx context.Context, strings []string) (*batch.Batch, error) {
+func (m *MergeReader) Read(ctx context.Context, strings []string) (*batch.Batch, error) {
 	panic("implement me")
 }
 
-func (m *mergeReader) Close() error {
+func (m *MergeReader) Close() error {
 	panic("implement me")
 }
