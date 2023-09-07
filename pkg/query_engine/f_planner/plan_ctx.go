@@ -30,11 +30,21 @@ func (m *MockCompilerContext) AppendSchema(tableName string, schema *catalog.Sch
 }
 
 func (m *MockCompilerContext) ResolveColType(dbName string, tableName string, colName string) types.Type {
-	//TODO implement me
-	panic("implement me")
+	for _, col := range m.Tables[tableName].ColDefs {
+		if col.Name == colName {
+			return col.Type
+		}
+	}
+
+	panic("no column found")
 }
 
 func (m *MockCompilerContext) ResolveColIdx(dbName string, tableName string, colName string) int32 {
-	//TODO implement me
-	panic("implement me")
+	for i, col := range m.Tables[tableName].ColDefs {
+		if col.Name == colName {
+			return int32(i)
+		}
+	}
+
+	panic("no column found")
 }

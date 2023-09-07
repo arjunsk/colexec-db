@@ -10,21 +10,21 @@ var _ Expr = new(ExprCol)
 var _ Expr = new(ExprFunc)
 
 type ExprCol struct {
-	typ    types.Type
+	Type   types.Type
 	ColIdx int32
 }
 
 func (e *ExprCol) Typ() types.Type {
-	return e.typ
+	return e.Type
 }
 
 type ExprFunc struct {
-	typ types.Type
+	Type types.Type
 
 	Name string
 	Args []Expr
 }
 
 func (f *ExprFunc) Typ() types.Type {
-	return f.typ
+	return f.Type
 }

@@ -14,25 +14,26 @@ func buildSelect(sel *ast.SelectStmt, ctx CompilerContext) (*QueryPlan, error) {
 	for _, selExpr := range sel.Fields.Fields {
 		switch selExpr := (selExpr.Expr).(type) {
 		case *ast.FuncCallExpr:
-			colName := selExpr.Args[0].(*ast.ColumnNameExpr).Name.Name.L
-			q.Params = []Expr{
-				&ExprFunc{
-					typ:  types.T_int32.ToType(),
-					Name: selExpr.FnName.L,
-					Args: []Expr{
-						&ExprCol{
-							typ:    ctx.ResolveColType("", "", colName),
-							ColIdx: ctx.ResolveColIdx("", "", colName),
-						},
-					},
-				},
+
+			param := ExprFunc{
+				Type: types.T_int32.ToType(),
+				Name: selExpr.FnName.L,
 			}
+			for _, arg := range selExpr.Args {
+				colName := arg.(*ast.ColumnNameExpr).Name.Name.L
+				param.Args = append(param.Args, &ExprCol{
+					Type:   ctx.ResolveColType("", "", colName),
+					ColIdx: ctx.ResolveColIdx("", "", colName),
+				})
+			}
+
+			q.Params = []Expr{&param}
 
 		case *ast.ColumnNameExpr:
 			colName := selExpr.Name.Name.L
 			q.Params = []Expr{
 				&ExprCol{
-					typ:    ctx.ResolveColType("", "", colName),
+					Type:   ctx.ResolveColType("", "", colName),
 					ColIdx: ctx.ResolveColIdx("", "", colName),
 				},
 			}
