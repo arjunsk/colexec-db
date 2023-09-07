@@ -65,10 +65,6 @@ func (expr *FunctionExpressionExecutor) Free() {
 	}
 }
 
-func (expr *FunctionExpressionExecutor) IsColumnExpr() bool {
-	return false
-}
-
 func (expr *FunctionExpressionExecutor) SetParameter(index int, executor ExpressionExecutor) {
 	expr.parameterExecutor[index] = executor
 }

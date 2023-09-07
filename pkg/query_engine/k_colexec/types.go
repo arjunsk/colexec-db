@@ -9,5 +9,4 @@ import (
 type ExpressionExecutor interface {
 	Eval(proc *process.Process, batches []*batch.Batch) (*vector.Vector, error)
 	Free()
-	IsColumnExpr() bool
 }

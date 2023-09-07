@@ -8,20 +8,16 @@ import (
 )
 
 type ColumnExpressionExecutor struct {
-	colName string
-	typ     types.Type
+	colIdx int32
+	typ    types.Type
 }
 
 var _ ExpressionExecutor = new(ColumnExpressionExecutor)
 
 func (expr *ColumnExpressionExecutor) Eval(_ *process.Process, batches []*batch.Batch) (*vector.Vector, error) {
-	vec := batches[0].Vecs[expr.colName]
+	vec := batches[0].Vecs[expr.colIdx]
 	return vec, nil
 }
 
 func (expr *ColumnExpressionExecutor) Free() {
-}
-
-func (expr *ColumnExpressionExecutor) IsColumnExpr() bool {
-	return true
 }

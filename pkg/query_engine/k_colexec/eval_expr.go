@@ -26,8 +26,8 @@ func NewExpressionExecutor(proc *process.Process, planExpr planner.Expr) (Expres
 	case *planner.ExprCol:
 		typ := planExpr.Typ()
 		return &ColumnExpressionExecutor{
-			colName: t.ColName,
-			typ:     typ,
+			colIdx: t.ColIdx,
+			typ:    typ,
 		}, nil
 
 	case *planner.ExprFunc:
