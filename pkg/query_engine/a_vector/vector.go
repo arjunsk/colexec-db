@@ -31,3 +31,10 @@ func Append[T any](vec *Vector, val T, isNull bool) error {
 func (v *Vector) Free() {
 
 }
+
+func Get[T any](vec *Vector, i uint32) (res T, isNull bool) {
+	if vec.nsp.Contains(i) {
+		return res, true
+	}
+	return vec.col.([]T)[i], false
+}

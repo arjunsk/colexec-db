@@ -5,18 +5,17 @@ import (
 	vector "colexecdb/pkg/query_engine/a_vector"
 	batch "colexecdb/pkg/query_engine/b_batch"
 	process "colexecdb/pkg/query_engine/c_process"
-	"colexecdb/pkg/query_engine/k_colexec/function"
 )
 
 type FunctionExpressionExecutor struct {
-	resultVector function.FunctionResultWrapper
+	resultVector *vector.Vector
 	// parameters related
 	parameterResults  []*vector.Vector
 	parameterExecutor []ExpressionExecutor
 
 	evalFn func(
 		params []*vector.Vector,
-		result function.FunctionResultWrapper,
+		result *vector.Vector,
 		proc *process.Process,
 		length int) error
 }
@@ -27,7 +26,7 @@ func (expr *FunctionExpressionExecutor) Init(
 	retType types.Type,
 	fn func(
 		params []*vector.Vector,
-		result function.FunctionResultWrapper,
+		result *vector.Vector,
 		proc *process.Process,
 		length int) error,
 ) (err error) {
@@ -36,7 +35,7 @@ func (expr *FunctionExpressionExecutor) Init(
 	expr.parameterResults = make([]*vector.Vector, parameterNum)
 	expr.parameterExecutor = make([]ExpressionExecutor, parameterNum)
 
-	expr.resultVector = function.NewFunctionResultWrapper(retType)
+	expr.resultVector = vector.NewVec(retType)
 	return err
 }
 
@@ -49,14 +48,10 @@ func (expr *FunctionExpressionExecutor) Eval(proc *process.Process, batches []*b
 		}
 	}
 
-	if err = expr.resultVector.PreExtendAndReset(batches[0].GetRowCount()); err != nil {
-		return nil, err
-	}
-
 	if err = expr.evalFn(expr.parameterResults, expr.resultVector, proc, batches[0].GetRowCount()); err != nil {
 		return nil, err
 	}
-	return expr.resultVector.GetResultVector(), nil
+	return expr.resultVector, nil
 }
 
 func (expr *FunctionExpressionExecutor) Free() {
