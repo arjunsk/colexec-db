@@ -1,8 +1,8 @@
 package scope
 
 import (
-	compile "colexecdb/pkg/query_engine/f_compile"
-	pipeline "colexecdb/pkg/query_engine/h_pipeline"
+	compile "colexecdb/pkg/query_engine/g_compile"
+	pipeline "colexecdb/pkg/query_engine/i_pipeline"
 )
 
 func (s *Scope) CreateTable(c *compile.Compile) error {

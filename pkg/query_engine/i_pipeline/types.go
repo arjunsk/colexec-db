@@ -1,6 +1,6 @@
 package pipeline
 
-import relalgebra "colexecdb/pkg/query_engine/i_rel_algebra"
+import relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 
 type Pipeline struct {
 	// attrs, column list.

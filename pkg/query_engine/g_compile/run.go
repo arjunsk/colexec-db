@@ -1,7 +1,7 @@
 package compile
 
 import (
-	scope "colexecdb/pkg/query_engine/g_scope"
+	scope "colexecdb/pkg/query_engine/h_scope"
 	"sync"
 )
 import "github.com/panjf2000/ants/v2"

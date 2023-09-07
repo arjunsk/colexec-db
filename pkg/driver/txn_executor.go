@@ -5,8 +5,8 @@ import (
 	process "colexecdb/pkg/query_engine/c_process"
 	parser "colexecdb/pkg/query_engine/d_parser"
 	catalog "colexecdb/pkg/query_engine/e_catalog"
-	planner "colexecdb/pkg/query_engine/e_planner"
-	compile "colexecdb/pkg/query_engine/f_compile"
+	planner "colexecdb/pkg/query_engine/f_planner"
+	compile "colexecdb/pkg/query_engine/g_compile"
 	"context"
 )
 

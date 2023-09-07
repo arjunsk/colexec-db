@@ -3,7 +3,7 @@ package rel_algebra
 import (
 	"bytes"
 	process "colexecdb/pkg/query_engine/c_process"
-	"colexecdb/pkg/query_engine/i_rel_algebra/projection"
+	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 )
 
 var stringFunc = [...]func(any, *bytes.Buffer){

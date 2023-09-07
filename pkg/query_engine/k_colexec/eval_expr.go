@@ -2,8 +2,8 @@ package colexec
 
 import (
 	process "colexecdb/pkg/query_engine/c_process"
-	planner "colexecdb/pkg/query_engine/e_planner"
-	"colexecdb/pkg/query_engine/j_colexec/function"
+	planner "colexecdb/pkg/query_engine/f_planner"
+	"colexecdb/pkg/query_engine/k_colexec/function"
 	"errors"
 )
 

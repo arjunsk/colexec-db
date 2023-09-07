@@ -5,7 +5,7 @@ import (
 	vector "colexecdb/pkg/query_engine/a_vector"
 	batch "colexecdb/pkg/query_engine/b_batch"
 	process "colexecdb/pkg/query_engine/c_process"
-	"colexecdb/pkg/query_engine/j_colexec/function"
+	"colexecdb/pkg/query_engine/k_colexec/function"
 )
 
 type FunctionExpressionExecutor struct {

@@ -2,8 +2,8 @@ package projection
 
 import (
 	process "colexecdb/pkg/query_engine/c_process"
-	planner "colexecdb/pkg/query_engine/e_planner"
-	colexec "colexecdb/pkg/query_engine/j_colexec"
+	planner "colexecdb/pkg/query_engine/f_planner"
+	colexec "colexecdb/pkg/query_engine/k_colexec"
 )
 
 type container struct {

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	batch "colexecdb/pkg/query_engine/b_batch"
 	process "colexecdb/pkg/query_engine/c_process"
-	colexec "colexecdb/pkg/query_engine/j_colexec"
+	colexec "colexecdb/pkg/query_engine/k_colexec"
 )
 
 func String(arg any, buf *bytes.Buffer) {
