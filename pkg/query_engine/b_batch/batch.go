@@ -5,13 +5,13 @@ import vector "colexecdb/pkg/query_engine/a_vector"
 type Batch struct {
 	Recursive int32 // For recursive CTE, 1 is last batch, 2 is end of batch
 	Attrs     []string
-	Vecs      map[string]*vector.Vector
+	Vecs      []*vector.Vector
 	rowCount  int
 }
 
 func NewWithSize(n int) *Batch {
 	return &Batch{
-		Vecs:     make(map[string]*vector.Vector),
+		Vecs:     make([]*vector.Vector, n),
 		rowCount: 0,
 	}
 }
@@ -24,11 +24,11 @@ func (bat *Batch) GetRowCount() int {
 	return bat.rowCount
 }
 
-func (bat *Batch) GetVector(pos string) *vector.Vector {
+func (bat *Batch) GetVector(pos uint32) *vector.Vector {
 	return bat.Vecs[pos]
 }
 
-func (bat *Batch) SetVector(pos string, vec *vector.Vector) {
+func (bat *Batch) SetVector(pos uint32, vec *vector.Vector) {
 	bat.Vecs[pos] = vec
 }
 
