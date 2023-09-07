@@ -10,8 +10,8 @@ var _ Expr = new(ExprCol)
 var _ Expr = new(ExprFunc)
 
 type ExprCol struct {
-	typ     types.Type
-	ColName string
+	typ    types.Type
+	ColIdx int32
 }
 
 func (e *ExprCol) Typ() types.Type {

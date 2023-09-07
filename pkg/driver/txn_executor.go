@@ -4,6 +4,7 @@ import (
 	batch "colexecdb/pkg/query_engine/b_batch"
 	process "colexecdb/pkg/query_engine/c_process"
 	parser "colexecdb/pkg/query_engine/d_parser"
+	catalog "colexecdb/pkg/query_engine/e_catalog"
 	planner "colexecdb/pkg/query_engine/e_planner"
 	compile "colexecdb/pkg/query_engine/f_compile"
 	"context"
@@ -27,9 +28,13 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	if err != nil {
 		return Result{}, err
 	}
+	// get table def
+	schema := catalog.MockSchemaAll(3)
+	ctx := planner.NewMockCompilerContext()
+	ctx.AppendSchema("tbl1", schema)
 
 	// create plan
-	execPlan, err := planner.BuildPlan(stmt)
+	execPlan, err := planner.BuildPlan(stmt, ctx)
 	if err != nil {
 		return Result{}, err
 	}
