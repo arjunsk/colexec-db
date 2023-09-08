@@ -35,3 +35,11 @@ func (bat *Batch) SetVector(pos uint32, vec *vector.Vector) {
 func (bat *Batch) IsEmpty() bool {
 	return bat.rowCount == 0
 }
+
+func (bat *Batch) Dup() (*Batch, error) {
+	rbat := NewWithSize(len(bat.Vecs))
+	rbat.Attrs = bat.Attrs
+	rbat.Vecs = bat.Vecs
+	rbat.rowCount = bat.rowCount
+	return rbat, nil
+}

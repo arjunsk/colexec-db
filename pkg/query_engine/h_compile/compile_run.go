@@ -7,7 +7,7 @@ import "github.com/panjf2000/ants/v2"
 
 func (c *Compile) Run(_ uint64) (*RunResult, error) {
 	result := &RunResult{
-		AffectRows: 0,
+		AffectedRows: 0,
 	}
 	if err := c.runOnce(); err != nil {
 		return nil, err

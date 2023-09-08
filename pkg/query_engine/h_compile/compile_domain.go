@@ -23,11 +23,16 @@ type Compile struct {
 	Process *process.Process
 	stmt    parser.Statement
 
+	//fill is a result writer runs a callback function.
+	//fill will be called when result data is ready.
+	fill func(any, *batch.Batch) error
+
 	lock sync.RWMutex
 }
 
 type RunResult struct {
-	AffectRows uint64
+	AffectedRows uint64
+	Batches      []*batch.Batch
 }
 
 type ScopeType int

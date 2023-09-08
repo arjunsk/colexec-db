@@ -6,6 +6,7 @@ type OpType int
 
 const (
 	Projection OpType = iota
+	Output
 	Join
 )
 
