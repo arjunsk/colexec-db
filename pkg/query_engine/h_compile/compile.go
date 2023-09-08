@@ -70,3 +70,11 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, 
 	}
 	return nil, errors.New("unimplemented")
 }
+
+func (c *Compile) setAffectedRows(i uint64) {
+	c.affectRows.Store(i)
+}
+
+func (c *Compile) addAffectedRows(i uint64) {
+	c.affectRows.Add(i)
+}

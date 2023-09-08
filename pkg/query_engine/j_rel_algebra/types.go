@@ -9,13 +9,13 @@ const (
 	Join
 )
 
+type Instructions []Instruction
+
 // Instruction contains relational algebra
 type Instruction struct {
 	Op  OpType
 	Arg InstructionArgument
 }
-
-type Instructions []Instruction
 
 type InstructionArgument interface {
 	Free(proc *process.Process, pipelineFailed bool)

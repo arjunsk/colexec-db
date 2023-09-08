@@ -8,8 +8,7 @@ import (
 )
 
 func String(arg any, buf *bytes.Buffer) {
-	buf.WriteString("projection(")
-	buf.WriteString(")")
+	buf.WriteString("projection()")
 }
 
 func Prepare(proc *process.Process, arg any) (err error) {
@@ -36,7 +35,7 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 	}
 
 	ap := arg.(*Argument)
-	rbat := batch.NewWithSize(len(ap.Es))
+	resultBat := batch.NewWithSize(len(ap.Es))
 
 	// do projection.
 	for i := range ap.ctr.projExecutors {
@@ -44,11 +43,11 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 		if err != nil {
 			return process.ExecNext, err
 		}
-		rbat.Vecs[i] = vec
+		resultBat.Vecs[i] = vec
 	}
 
-	rbat.SetRowCount(bat.GetRowCount())
+	resultBat.SetRowCount(bat.GetRowCount())
 
-	proc.SetInputBatch(rbat)
+	proc.SetInputBatch(resultBat)
 	return process.ExecNext, nil
 }

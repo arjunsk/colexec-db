@@ -13,4 +13,9 @@ type Scope struct {
 	DataSource   *Source
 	Process      *process.Process
 	Instructions rel_algebra.Instructions
+	affectedRows uint64
+}
+
+func (s *Scope) AffectedRows() uint64 {
+	return s.affectedRows
 }

@@ -9,6 +9,7 @@ import (
 	rel_algebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -42,8 +43,8 @@ func TestCompile_Compile(t *testing.T) {
 
 	require.Equal(t, Normal, c.scope[0].Magic)
 
-	//runResult, _ := c.Run(0)
-	//
-	//fmt.Println(batches)
-	//fmt.Println(runResult.AffectRows)
+	runResult, _ := c.Run(0)
+
+	fmt.Println(batches)
+	fmt.Println(runResult.AffectRows)
 }

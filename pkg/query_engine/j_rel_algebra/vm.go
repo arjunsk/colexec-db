@@ -13,7 +13,6 @@ func Prepare(ins Instructions, proc *process.Process) error {
 }
 
 func Run(ins Instructions, proc *process.Process) (end bool, err error) {
-
 	return fubarRun(ins, proc, 0)
 }
 

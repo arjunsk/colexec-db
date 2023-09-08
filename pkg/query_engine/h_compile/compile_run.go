@@ -47,14 +47,14 @@ func (c *Compile) run(s *Scope) error {
 		if err != nil {
 			return err
 		}
-		//c.addAffectedRows(s.AffectedRows())
+		c.addAffectedRows(s.AffectedRows())
 		return nil
 	case CreateTable:
 		err := s.CreateTable(c)
 		if err != nil {
 			return err
 		}
-		//c.setAffectedRows(1)
+		c.setAffectedRows(1)
 		return nil
 	}
 	return nil

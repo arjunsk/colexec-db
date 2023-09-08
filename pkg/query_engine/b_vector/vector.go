@@ -19,6 +19,8 @@ func NewVec(typ types.Type) *Vector {
 	switch typ.Oid {
 	case types.T_int32:
 		v.col = make([]int32, 0)
+	case types.T_int64:
+		v.col = make([]int64, 0)
 	}
 	return v
 }
@@ -41,6 +43,10 @@ func (v *Vector) Free() {
 	v.col = nil
 	v.length = 0
 	v.typ = nil
+}
+
+func (v *Vector) Length() int {
+	return v.length
 }
 
 func Get[T any](vec *Vector, i uint32) (res T, isNull bool) {

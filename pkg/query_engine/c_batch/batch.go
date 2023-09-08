@@ -12,6 +12,7 @@ type Batch struct {
 func NewWithSize(n int) *Batch {
 	return &Batch{
 		Vecs:     make([]*vector.Vector, n),
+		Attrs:    make([]string, n),
 		rowCount: 0,
 	}
 }
