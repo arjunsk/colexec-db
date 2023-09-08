@@ -1,12 +1,12 @@
 package executor
 
 import (
-	batch "colexecdb/pkg/query_engine/b_batch"
-	process "colexecdb/pkg/query_engine/c_process"
+	batch "colexecdb/pkg/query_engine/c_batch"
 	parser "colexecdb/pkg/query_engine/d_parser"
-	catalog "colexecdb/pkg/query_engine/e_catalog"
-	planner "colexecdb/pkg/query_engine/f_planner"
-	compile "colexecdb/pkg/query_engine/g_compile"
+	process "colexecdb/pkg/query_engine/e_process"
+	catalog "colexecdb/pkg/query_engine/f_catalog"
+	planner "colexecdb/pkg/query_engine/g_planner"
+	compile "colexecdb/pkg/query_engine/h_compile"
 	"context"
 )
 
@@ -29,9 +29,9 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 		return Result{}, err
 	}
 	// get table def
-	schema := catalog.MockSchemaAll(3)
+	schema := catalog.MockTableDef(2)
 	ctx := planner.NewMockCompilerContext()
-	ctx.AppendSchema("tbl1", schema)
+	ctx.AppendTableDef("tbl1", schema)
 
 	// create plan
 	execPlan, err := planner.BuildPlan(stmt, ctx)

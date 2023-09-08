@@ -1,7 +1,7 @@
 package executor
 
 import (
-	batch "colexecdb/pkg/query_engine/b_batch"
+	batch "colexecdb/pkg/query_engine/c_batch"
 	"context"
 	"fmt"
 )
