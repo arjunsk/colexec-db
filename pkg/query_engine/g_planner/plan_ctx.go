@@ -2,7 +2,7 @@ package planner
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
-	catalog "colexecdb/pkg/query_engine/e_catalog"
+	catalog "colexecdb/pkg/query_engine/f_catalog"
 	"context"
 )
 
