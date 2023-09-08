@@ -23,5 +23,4 @@ type ExecStatus int
 const (
 	ExecStop ExecStatus = iota
 	ExecNext
-	ExecHasMore
 )
