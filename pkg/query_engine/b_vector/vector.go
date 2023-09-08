@@ -49,6 +49,10 @@ func (v *Vector) Length() int {
 	return v.length
 }
 
+func (v *Vector) GetType() *types.Type {
+	return v.typ
+}
+
 func Get[T any](vec *Vector, i uint32) (res T, isNull bool) {
 	if vec.nsp.Contains(i) {
 		return res, true
