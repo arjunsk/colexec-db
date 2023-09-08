@@ -26,10 +26,10 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 		proc.SetInputBatch(nil)
 		return process.ExecStop, nil
 	}
-	if bat.Last() {
-		proc.SetInputBatch(bat)
-		return process.ExecNext, nil
-	}
+	//if bat.Last() {
+	//	proc.SetInputBatch(bat)
+	//	return process.ExecNext, nil
+	//}
 	if bat.IsEmpty() {
 		return process.ExecNext, nil
 	}

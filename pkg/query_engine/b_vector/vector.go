@@ -31,6 +31,7 @@ func Append[T any](vec *Vector, val T, isNull bool) error {
 	if isNull {
 		vec.nsp.Add(uint32(length))
 	} else {
+		//TODO: very simple append instead of mpool based pre-extend etc.
 		col := vec.col.([]T)
 		col = append(col, val)
 		vec.col = col

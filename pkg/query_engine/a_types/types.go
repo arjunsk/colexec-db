@@ -29,5 +29,5 @@ func (t T) ToType() Type {
 }
 
 type FixedSizeT interface {
-	~int32
+	~int32 | ~int64
 }
