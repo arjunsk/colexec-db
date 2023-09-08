@@ -68,6 +68,17 @@ func (v *Vector) String() string {
 	}
 }
 
+func (v *Vector) Dup() (*Vector, error) {
+
+	w := &Vector{
+		typ:    v.typ,
+		length: v.length,
+		col:    v.col,
+		nsp:    v.nsp.Clone(),
+	}
+	return w, nil
+}
+
 func vecToString[T types.FixedSizeT](v *Vector) string {
 	col := v.col.([]T)
 	if v.nsp.GetCardinality() > 0 {

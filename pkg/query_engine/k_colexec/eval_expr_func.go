@@ -8,7 +8,7 @@ import (
 )
 
 type FunctionExpressionExecutor struct {
-	resultVector *vector.Vector
+	ResultVector *vector.Vector
 	// parameters related
 	parameterResults  []*vector.Vector
 	parameterExecutor []ExpressionExecutor
@@ -35,7 +35,7 @@ func (expr *FunctionExpressionExecutor) Init(
 	expr.parameterResults = make([]*vector.Vector, parameterNum)
 	expr.parameterExecutor = make([]ExpressionExecutor, parameterNum)
 
-	expr.resultVector = vector.NewVec(retType)
+	expr.ResultVector = vector.NewVec(retType)
 	return err
 }
 
@@ -48,10 +48,10 @@ func (expr *FunctionExpressionExecutor) Eval(proc *process.Process, batches []*b
 		}
 	}
 
-	if err = expr.evalFn(expr.parameterResults, expr.resultVector, proc, batches[0].GetRowCount()); err != nil {
+	if err = expr.evalFn(expr.parameterResults, expr.ResultVector, proc, batches[0].GetRowCount()); err != nil {
 		return nil, err
 	}
-	return expr.resultVector, nil
+	return expr.ResultVector, nil
 }
 
 func (expr *FunctionExpressionExecutor) Free() {

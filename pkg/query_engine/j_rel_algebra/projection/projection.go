@@ -2,6 +2,7 @@ package projection
 
 import (
 	"bytes"
+	vector "colexecdb/pkg/query_engine/b_vector"
 	batch "colexecdb/pkg/query_engine/c_batch"
 	process "colexecdb/pkg/query_engine/e_process"
 	colexec "colexecdb/pkg/query_engine/k_colexec"
@@ -46,8 +47,52 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 		resultBat.Vecs[i] = vec
 	}
 
+	_ = FixProjectionResult(proc, ap.ctr.projExecutors, resultBat, bat)
+
 	resultBat.SetRowCount(bat.GetRowCount())
 
 	proc.SetInputBatch(resultBat)
 	return process.ExecNext, nil
+}
+
+func FixProjectionResult(
+	proc *process.Process,
+	executors []colexec.ExpressionExecutor,
+	rbat *batch.Batch,
+	sbat *batch.Batch,
+) (err error) {
+
+	alreadySet := make([]int, len(rbat.Vecs))
+	for i := range alreadySet {
+		alreadySet[i] = -1
+	}
+
+	finalVectors := make([]*vector.Vector, 0, len(rbat.Vecs))
+	for i, oldVec := range rbat.Vecs {
+		if alreadySet[i] < 0 {
+			newVec := (*vector.Vector)(nil)
+			if _, ok := executors[i].(*colexec.ColumnExpressionExecutor); ok {
+				newVec, _ = oldVec.Dup()
+			} else if functionExpr, ok := executors[i].(*colexec.FunctionExpressionExecutor); ok {
+				newVec = functionExpr.ResultVector
+				functionExpr.ResultVector = vector.NewVec(*functionExpr.ResultVector.GetType())
+			} else {
+				newVec, _ = oldVec.Dup()
+			}
+
+			finalVectors = append(finalVectors, newVec)
+			indexOfNewVec := len(finalVectors) - 1
+			for j := range rbat.Vecs {
+				if rbat.Vecs[j] == oldVec {
+					alreadySet[j] = indexOfNewVec
+				}
+			}
+		}
+	}
+
+	// use new vector to replace the old vector.
+	for i, idx := range alreadySet {
+		rbat.Vecs[i] = finalVectors[idx]
+	}
+	return nil
 }

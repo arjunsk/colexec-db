@@ -20,7 +20,7 @@ func buildSelect(sel *ast.SelectStmt, ctx CompilerContext) (*QueryPlan, error) {
 			param := ExprFunc{
 				// return type of function.
 				// TODO: Later modify it to be dynamic
-				Type: types.T_int32.ToType(),
+				Type: types.T_int64.ToType(),
 				Name: selExpr.FnName.L,
 			}
 			for _, arg := range selExpr.Args {

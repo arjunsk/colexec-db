@@ -30,6 +30,11 @@ type Compile struct {
 	lock sync.RWMutex
 }
 
+func (c *Compile) getAffectedRows() uint64 {
+	affectRows := c.affectRows.Load()
+	return affectRows
+}
+
 type RunResult struct {
 	AffectedRows uint64
 	Batches      []*batch.Batch

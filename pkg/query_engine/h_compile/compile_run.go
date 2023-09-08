@@ -12,6 +12,7 @@ func (c *Compile) Run(_ uint64) (*RunResult, error) {
 	if err := c.runOnce(); err != nil {
 		return nil, err
 	}
+	result.AffectedRows = c.getAffectedRows()
 	return result, nil
 }
 
