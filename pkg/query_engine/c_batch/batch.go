@@ -1,6 +1,6 @@
 package batch
 
-import vector "colexecdb/pkg/query_engine/a_vector"
+import vector "colexecdb/pkg/query_engine/b_vector"
 
 type Batch struct {
 	Recursive int32 // For recursive CTE, 1 is last batch, 2 is end of batch

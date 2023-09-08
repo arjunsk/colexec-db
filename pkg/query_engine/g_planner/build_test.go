@@ -3,7 +3,7 @@ package planner
 import (
 	types "colexecdb/pkg/query_engine/a_types"
 	parser "colexecdb/pkg/query_engine/d_parser"
-	catalog "colexecdb/pkg/query_engine/e_catalog"
+	catalog "colexecdb/pkg/query_engine/f_catalog"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

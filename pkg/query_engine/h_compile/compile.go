@@ -1,10 +1,10 @@
 package compile
 
 import (
-	batch "colexecdb/pkg/query_engine/b_batch"
-	process "colexecdb/pkg/query_engine/c_process"
+	batch "colexecdb/pkg/query_engine/c_batch"
 	"colexecdb/pkg/query_engine/d_parser"
-	planner "colexecdb/pkg/query_engine/f_planner"
+	process "colexecdb/pkg/query_engine/e_process"
+	planner "colexecdb/pkg/query_engine/g_planner"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"colexecdb/pkg/storage_engine"

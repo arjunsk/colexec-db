@@ -2,7 +2,7 @@ package batch
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
-	vector "colexecdb/pkg/query_engine/a_vector"
+	vector "colexecdb/pkg/query_engine/b_vector"
 	"testing"
 )
 
