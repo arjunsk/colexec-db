@@ -47,7 +47,7 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 		resultBat.Vecs[i] = vec
 	}
 
-	_ = FixProjectionResult(proc, ap.ctr.projExecutors, resultBat, bat)
+	_ = FixProjectionResult(ap.ctr.projExecutors, resultBat)
 
 	resultBat.SetRowCount(bat.GetRowCount())
 
@@ -55,12 +55,7 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 	return process.ExecNext, nil
 }
 
-func FixProjectionResult(
-	proc *process.Process,
-	executors []colexec.ExpressionExecutor,
-	rbat *batch.Batch,
-	sbat *batch.Batch,
-) (err error) {
+func FixProjectionResult(executors []colexec.ExpressionExecutor, rbat *batch.Batch) (err error) {
 
 	alreadySet := make([]int, len(rbat.Vecs))
 	for i := range alreadySet {
@@ -90,7 +85,6 @@ func FixProjectionResult(
 		}
 	}
 
-	// use new vector to replace the old vector.
 	for i, idx := range alreadySet {
 		rbat.Vecs[i] = finalVectors[idx]
 	}

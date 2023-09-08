@@ -14,6 +14,10 @@ type Register struct {
 type Process struct {
 	Reg Register
 
+	//vp          *vectorPool
+	//mp          *mpool.MPool
+	//FileService fileservice.FileService
+
 	Ctx    context.Context
 	Cancel context.CancelFunc
 }
