@@ -33,7 +33,9 @@ func fubarRun(ins Instructions, proc *process.Process, start int) (end bool, err
 	}
 
 	// run the stack backwards.
+	// Only executed for process.ExecHasMore
 	for i := len(fubarStack) - 1; i >= 0; i-- {
+		// Note that, we are passing the start argument as the idx, where the process execution returned ExecHasMore
 		end, err = fubarRun(ins, proc, fubarStack[i])
 		if end || err != nil {
 			return end, err

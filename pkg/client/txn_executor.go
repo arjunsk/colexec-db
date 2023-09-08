@@ -1,7 +1,6 @@
 package executor
 
 import (
-	batch "colexecdb/pkg/query_engine/c_batch"
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
@@ -40,18 +39,10 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	}
 
 	// init compile object
-	process := process.New(exec.ctx)
-	c := compile.New(sql, exec.ctx, process, stmt)
+	p := process.New(exec.ctx)
+	c := compile.New(sql, exec.ctx, p, stmt)
 
-	// compile()/prepare() compile object
-	var batches []*batch.Batch
-	fillFn := func(a any, bat *batch.Batch) error {
-		if bat != nil {
-			batches = append(batches, bat)
-		}
-		return nil
-	}
-	err = c.Compile(exec.ctx, execPlan, fillFn)
+	err = c.Compile(exec.ctx, execPlan)
 	if err != nil {
 		return Result{}, err
 	}
@@ -63,7 +54,6 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	}
 
 	// set output
-	result.Batches = batches
 	result.AffectedRows = runResult.AffectRows
 
 	return

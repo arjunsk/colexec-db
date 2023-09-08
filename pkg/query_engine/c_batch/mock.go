@@ -8,6 +8,7 @@ import (
 
 func MockBatch(colCnt int, rowCnt int) *Batch {
 	bat := NewWithSize(colCnt)
+	bat.rowCount = rowCnt
 
 	for i := 0; i < colCnt; i++ {
 		name := fmt.Sprintf("%s%d", "mock_", i)

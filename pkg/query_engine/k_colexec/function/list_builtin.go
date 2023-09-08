@@ -2,15 +2,15 @@ package function
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
-	vector "colexecdb/pkg/query_engine/a_vector"
-	process "colexecdb/pkg/query_engine/c_process"
+	vector "colexecdb/pkg/query_engine/b_vector"
+	process "colexecdb/pkg/query_engine/e_process"
 )
 
 var supportedOperators = []FuncNew{
 	{
-		functionName: "SQRT",
+		functionName: "sqrt",
 		overloadFn: Overload{
-			overloadId: 1,
+			overloadId: 0,
 			args:       []types.T{types.T_int32},
 			retType: func(parameters []types.Type) types.Type {
 				return types.T_int32.ToType()

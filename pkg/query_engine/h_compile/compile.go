@@ -1,7 +1,6 @@
 package compile
 
 import (
-	batch "colexecdb/pkg/query_engine/c_batch"
 	"colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	planner "colexecdb/pkg/query_engine/g_planner"
@@ -24,10 +23,9 @@ func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Sta
 
 // Compile is the entrance of the compute-execute-layer.
 // It generates a scope (logic pipeline) for a query plan.
-func (c *Compile) Compile(ctx context.Context, pn planner.Plan, fill func(any, *batch.Batch) error) (err error) {
+func (c *Compile) Compile(ctx context.Context, pn planner.Plan) (err error) {
 
 	c.Ctx = c.Process.Ctx
-	c.fill = fill
 	c.pn = pn
 
 	c.scope, err = c.compileScope(ctx, pn)

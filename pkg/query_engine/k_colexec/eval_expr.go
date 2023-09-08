@@ -1,8 +1,8 @@
 package colexec
 
 import (
-	process "colexecdb/pkg/query_engine/c_process"
-	planner "colexecdb/pkg/query_engine/f_planner"
+	process "colexecdb/pkg/query_engine/e_process"
+	planner "colexecdb/pkg/query_engine/g_planner"
 	"colexecdb/pkg/query_engine/k_colexec/function"
 	"errors"
 )
@@ -24,7 +24,7 @@ func NewExpressionExecutorsFromPlanExpressions(proc *process.Process, planExprs 
 func NewExpressionExecutor(proc *process.Process, planExpr planner.Expr) (ExpressionExecutor, error) {
 	switch t := planExpr.(type) {
 	case *planner.ExprCol:
-		typ := planExpr.Typ()
+		typ := planExpr.(*planner.ExprCol).Type
 		return &ColumnExpressionExecutor{
 			colIdx: t.ColIdx,
 			typ:    typ,
@@ -37,7 +37,7 @@ func NewExpressionExecutor(proc *process.Process, planExpr planner.Expr) (Expres
 		}
 
 		executor := &FunctionExpressionExecutor{}
-		typ := planExpr.Typ()
+		typ := planExpr.(*planner.ExprFunc).Type
 		if err = executor.Init(proc, len(t.Args), typ, overload.GetExecuteMethod()); err != nil {
 			return nil, err
 		}

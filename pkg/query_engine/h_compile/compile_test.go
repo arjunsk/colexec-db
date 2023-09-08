@@ -1,7 +1,6 @@
 package compile
 
 import (
-	batch "colexecdb/pkg/query_engine/c_batch"
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
@@ -28,14 +27,7 @@ func TestCompile_Compile(t *testing.T) {
 	process := process.New(context.Background())
 	c := New(sql, ctx, process, stmt)
 
-	var batches []*batch.Batch
-	fillFn := func(a any, bat *batch.Batch) error {
-		if bat != nil {
-			batches = append(batches, bat)
-		}
-		return nil
-	}
-	_ = c.Compile(ctx, execPlan, fillFn)
+	_ = c.Compile(ctx, execPlan)
 
 	require.Equal(t, 1, len(c.scope))
 	require.Equal(t, rel_algebra.Projection, c.scope[0].Instructions[0].Op)
@@ -44,7 +36,5 @@ func TestCompile_Compile(t *testing.T) {
 	require.Equal(t, Normal, c.scope[0].Magic)
 
 	runResult, _ := c.Run(0)
-
-	fmt.Println(batches)
 	fmt.Println(runResult.AffectRows)
 }

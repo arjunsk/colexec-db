@@ -3,7 +3,6 @@ package storage_engine
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
 	"context"
-	"errors"
 )
 
 type MergeReader struct {
@@ -26,7 +25,7 @@ func NewMergeReader() *MergeReader {
 
 func (m *MergeReader) Read(ctx context.Context, attrs []string) (*batch.Batch, error) {
 	if m.iteratorIdx >= len(m.level1) {
-		return nil, errors.New("EOF")
+		return nil, nil
 	}
 	defer func() {
 		m.iteratorIdx++

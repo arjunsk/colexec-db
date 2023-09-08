@@ -15,7 +15,6 @@ import (
 type Compile struct {
 	scope      []*Scope
 	pn         planner.Plan
-	fill       func(any, *batch.Batch) error
 	affectRows atomic.Uint64
 	sql        string
 
