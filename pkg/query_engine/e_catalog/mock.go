@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-func MockSchemaAll(colCnt int) *Schema {
-	schema := Schema{
+func MockTableDef(colCnt int) *TableDef {
+	schema := TableDef{
 		Name:    time.Now().String(),
-		ColDefs: make([]*ColDef, colCnt),
+		ColDefs: make([]*ColDef, 0),
 	}
 
 	prefix := "mock_"
@@ -17,9 +17,12 @@ func MockSchemaAll(colCnt int) *Schema {
 
 	for i := 0; i < colCnt; i++ {
 		switch i % 20 {
-		default:
+		case 0:
 			typ = types.T_int32.ToType()
+		case 1:
+			typ = types.T_int64.ToType()
 		}
+
 		name := fmt.Sprintf("%s%d", prefix, i)
 		_ = schema.AppendCol(name, typ)
 	}

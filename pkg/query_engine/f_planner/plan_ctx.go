@@ -7,7 +7,7 @@ import (
 )
 
 type CompilerContext interface {
-	AppendSchema(tableName string, schema *catalog.Schema)
+	AppendTableDef(tableName string, schema *catalog.TableDef)
 	ResolveColType(dbName string, tableName string, colName string) types.Type
 	ResolveColIdx(dbName string, tableName string, colName string) int32
 }
@@ -16,16 +16,16 @@ var _ CompilerContext = new(MockCompilerContext)
 
 type MockCompilerContext struct {
 	ctx    context.Context
-	Tables map[string]*catalog.Schema
+	Tables map[string]*catalog.TableDef
 }
 
 func NewMockCompilerContext() *MockCompilerContext {
 	return &MockCompilerContext{
-		Tables: make(map[string]*catalog.Schema),
+		Tables: make(map[string]*catalog.TableDef),
 	}
 }
 
-func (m *MockCompilerContext) AppendSchema(tableName string, schema *catalog.Schema) {
+func (m *MockCompilerContext) AppendTableDef(tableName string, schema *catalog.TableDef) {
 	m.Tables[tableName] = schema
 }
 

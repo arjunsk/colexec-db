@@ -9,8 +9,10 @@ import (
 func buildSelect(sel *ast.SelectStmt, ctx CompilerContext) (*QueryPlan, error) {
 	q := &QueryPlan{
 		StatementType: SELECT,
+		Params:        make([]Expr, 0),
 	}
 
+	tblName := sel.From.TableRefs.Left.(*ast.TableSource).Source.(*ast.TableName).Name.L
 	for _, selExpr := range sel.Fields.Fields {
 		switch selExpr := (selExpr.Expr).(type) {
 		case *ast.FuncCallExpr:
@@ -22,21 +24,20 @@ func buildSelect(sel *ast.SelectStmt, ctx CompilerContext) (*QueryPlan, error) {
 			for _, arg := range selExpr.Args {
 				colName := arg.(*ast.ColumnNameExpr).Name.Name.L
 				param.Args = append(param.Args, &ExprCol{
-					Type:   ctx.ResolveColType("", "", colName),
-					ColIdx: ctx.ResolveColIdx("", "", colName),
+					Type:   ctx.ResolveColType("", tblName, colName),
+					ColIdx: ctx.ResolveColIdx("", tblName, colName),
 				})
 			}
 
-			q.Params = []Expr{&param}
+			q.Params = append(q.Params, &param)
 
 		case *ast.ColumnNameExpr:
 			colName := selExpr.Name.Name.L
-			q.Params = []Expr{
-				&ExprCol{
-					Type:   ctx.ResolveColType("", "", colName),
-					ColIdx: ctx.ResolveColIdx("", "", colName),
-				},
+			param := ExprCol{
+				Type:   ctx.ResolveColType("", tblName, colName),
+				ColIdx: ctx.ResolveColIdx("", tblName, colName),
 			}
+			q.Params = append(q.Params, &param)
 		default:
 			return nil, errors.New("not supported")
 		}

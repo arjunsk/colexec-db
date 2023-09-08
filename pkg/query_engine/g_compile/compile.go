@@ -5,7 +5,6 @@ import (
 	process "colexecdb/pkg/query_engine/c_process"
 	"colexecdb/pkg/query_engine/d_parser"
 	planner "colexecdb/pkg/query_engine/f_planner"
-	scope "colexecdb/pkg/query_engine/h_scope"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"colexecdb/pkg/storage_engine"
@@ -35,10 +34,10 @@ func (c *Compile) Compile(ctx context.Context, pn planner.Plan, fill func(any, *
 	return nil
 }
 
-func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*scope.Scope, error) {
+func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, error) {
 	switch qry := pn.(type) {
 	case *planner.QueryPlan:
-		rs := scope.Scope{
+		rs := Scope{
 			Magic:        Normal,
 			Plan:         pn,
 			Instructions: make(relalgebra.Instructions, 0),
@@ -51,20 +50,22 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*scope.S
 		})
 		rs.DataSource = &Source{
 			Reader:     storage_engine.NewMergeReader(),
-			Attributes: []string{"Id", "Age"},
+			Attributes: []string{"mock_0", "mock_1"},
 		}
 
 		rs.Process = c.Process
 
-		return []*scope.Scope{&rs}, nil
+		return []*Scope{&rs}, nil
 
 	case *planner.DDLPlan:
 		switch qry.Type {
 		case planner.DdlCreateTable:
-			return []*scope.Scope{{
-				Magic: CreateTable,
-				Plan:  pn,
-			}}, nil
+			rs := Scope{
+				Magic:   CreateTable,
+				Plan:    pn,
+				Process: c.Process,
+			}
+			return []*Scope{&rs}, nil
 		}
 	}
 	return nil, errors.New("unimplemented")

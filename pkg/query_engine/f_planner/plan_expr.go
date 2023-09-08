@@ -3,7 +3,7 @@ package planner
 import types "colexecdb/pkg/query_engine/a_types"
 
 type Expr interface {
-	Typ() types.Type
+	IsExpr() // only used to establish parent relationship
 }
 
 var _ Expr = new(ExprCol)
@@ -14,8 +14,8 @@ type ExprCol struct {
 	ColIdx int32
 }
 
-func (e *ExprCol) Typ() types.Type {
-	return e.Type
+func (e *ExprCol) IsExpr() {
+	return
 }
 
 type ExprFunc struct {
@@ -25,6 +25,6 @@ type ExprFunc struct {
 	Args []Expr
 }
 
-func (f *ExprFunc) Typ() types.Type {
-	return f.Type
+func (f *ExprFunc) IsExpr() {
+	return
 }

@@ -5,7 +5,6 @@ import (
 	process "colexecdb/pkg/query_engine/c_process"
 	"colexecdb/pkg/query_engine/d_parser"
 	planner "colexecdb/pkg/query_engine/f_planner"
-	scope "colexecdb/pkg/query_engine/h_scope"
 	"colexecdb/pkg/storage_engine"
 	"context"
 	"sync"
@@ -14,7 +13,7 @@ import (
 
 // Compile contains all the information needed for compilation.
 type Compile struct {
-	scope      []*scope.Scope
+	scope      []*Scope
 	pn         planner.Plan
 	fill       func(any, *batch.Batch) error
 	affectRows atomic.Uint64

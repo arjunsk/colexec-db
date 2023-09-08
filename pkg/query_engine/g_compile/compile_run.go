@@ -1,7 +1,6 @@
 package compile
 
 import (
-	scope "colexecdb/pkg/query_engine/h_scope"
 	"sync"
 )
 import "github.com/panjf2000/ants/v2"
@@ -13,7 +12,6 @@ func (c *Compile) Run(_ uint64) (*RunResult, error) {
 	if err := c.runOnce(); err != nil {
 		return nil, err
 	}
-	//result.AffectRows = c.getAffectedRows()
 	return result, nil
 }
 
@@ -39,7 +37,7 @@ func (c *Compile) runOnce() error {
 	return nil
 }
 
-func (c *Compile) run(s *scope.Scope) error {
+func (c *Compile) run(s *Scope) error {
 	if s == nil {
 		return nil
 	}
