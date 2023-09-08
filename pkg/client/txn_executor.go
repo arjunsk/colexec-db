@@ -65,7 +65,7 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 
 	// set output
 	result.Batches = batches
-	result.AffectedRows = runResult.AffectRows
+	result.AffectedRows = runResult.AffectedRows
 
 	return
 }
