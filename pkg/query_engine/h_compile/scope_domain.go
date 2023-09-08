@@ -1,8 +1,8 @@
 package compile
 
 import (
-	process "colexecdb/pkg/query_engine/c_process"
-	planner "colexecdb/pkg/query_engine/f_planner"
+	process "colexecdb/pkg/query_engine/e_process"
+	planner "colexecdb/pkg/query_engine/g_planner"
 	rel_algebra "colexecdb/pkg/query_engine/j_rel_algebra"
 )
 
