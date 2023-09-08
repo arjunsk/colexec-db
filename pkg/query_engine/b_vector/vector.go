@@ -94,3 +94,7 @@ func Get[T any](vec *Vector, i uint32) (res T, isNull bool) {
 	}
 	return vec.col.([]T)[i], false
 }
+
+func MustFixedCol[T any](v *Vector) []T {
+	return v.col.([]T)
+}
