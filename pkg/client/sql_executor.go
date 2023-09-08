@@ -15,6 +15,10 @@ type Result struct {
 	Batches      []*batch.Batch
 }
 
+func NewSQLExecutor() SQLExecutor {
+	return &sqlExecutor{}
+}
+
 func (s *sqlExecutor) Exec(ctx context.Context, sql string) (Result, error) {
 	var res Result
 	err := s.ExecTxn(
