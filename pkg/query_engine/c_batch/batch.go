@@ -1,6 +1,10 @@
 package batch
 
-import vector "colexecdb/pkg/query_engine/b_vector"
+import (
+	"bytes"
+	vector "colexecdb/pkg/query_engine/b_vector"
+	"fmt"
+)
 
 type Batch struct {
 	Attrs    []string
@@ -42,4 +46,13 @@ func (bat *Batch) Dup() (*Batch, error) {
 	rbat.Vecs = bat.Vecs
 	rbat.rowCount = bat.rowCount
 	return rbat, nil
+}
+
+func (bat *Batch) String() string {
+	var buf bytes.Buffer
+
+	for i, vec := range bat.Vecs {
+		buf.WriteString(fmt.Sprintf("%d : %s\n", i, vec.String()))
+	}
+	return buf.String()
 }

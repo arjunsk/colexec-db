@@ -1,6 +1,9 @@
 package vector
 
-import types "colexecdb/pkg/query_engine/a_types"
+import (
+	types "colexecdb/pkg/query_engine/a_types"
+	"fmt"
+)
 import "github.com/RoaringBitmap/roaring"
 
 type Vector struct {
@@ -52,6 +55,26 @@ func (v *Vector) Length() int {
 
 func (v *Vector) GetType() *types.Type {
 	return v.typ
+}
+
+func (v *Vector) String() string {
+	switch v.typ.Oid {
+	case types.T_int32:
+		return vecToString[int32](v)
+	case types.T_int64:
+		return vecToString[int64](v)
+	default:
+		panic("vec to string unknown types.")
+	}
+}
+
+func vecToString[T types.FixedSizeT](v *Vector) string {
+	col := v.col.([]T)
+	if v.nsp.GetCardinality() > 0 {
+		return fmt.Sprintf("%v-%s", col, v.nsp.String())
+	} else {
+		return fmt.Sprintf("%v", col)
+	}
 }
 
 func Get[T any](vec *Vector, i uint32) (res T, isNull bool) {

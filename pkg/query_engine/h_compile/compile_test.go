@@ -9,6 +9,7 @@ import (
 	rel_algebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"context"
+	"fmt"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -47,4 +48,8 @@ func TestCompile_Compile(t *testing.T) {
 	runResult.Batches = batches
 
 	require.Equal(t, 3, len(runResult.Batches))
+
+	for _, bat := range runResult.Batches {
+		fmt.Println(bat.String())
+	}
 }
