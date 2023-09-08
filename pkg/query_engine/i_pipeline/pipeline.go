@@ -1,8 +1,8 @@
 package pipeline
 
 import (
-	batch "colexecdb/pkg/query_engine/b_batch"
-	process "colexecdb/pkg/query_engine/c_process"
+	batch "colexecdb/pkg/query_engine/c_batch"
+	process "colexecdb/pkg/query_engine/e_process"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/storage_engine"
 )

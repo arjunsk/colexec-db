@@ -1,14 +1,11 @@
 package rel_algebra
 
-import process "colexecdb/pkg/query_engine/c_process"
+import process "colexecdb/pkg/query_engine/e_process"
 
 type OpType int
 
 const (
-	Top OpType = iota
-	Order
-	Group
-	Projection
+	Projection OpType = iota
 	Join
 )
 

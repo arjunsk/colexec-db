@@ -2,7 +2,7 @@ package rel_algebra
 
 import (
 	"bytes"
-	process "colexecdb/pkg/query_engine/c_process"
+	process "colexecdb/pkg/query_engine/e_process"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 )
 

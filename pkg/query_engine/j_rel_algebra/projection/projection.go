@@ -2,8 +2,8 @@ package projection
 
 import (
 	"bytes"
-	batch "colexecdb/pkg/query_engine/b_batch"
-	process "colexecdb/pkg/query_engine/c_process"
+	batch "colexecdb/pkg/query_engine/c_batch"
+	process "colexecdb/pkg/query_engine/e_process"
 	colexec "colexecdb/pkg/query_engine/k_colexec"
 )
 

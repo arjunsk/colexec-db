@@ -1,6 +1,6 @@
 package rel_algebra
 
-import process "colexecdb/pkg/query_engine/c_process"
+import process "colexecdb/pkg/query_engine/e_process"
 
 // Prepare range instructions and do init work for each operator's argument by calling its prepare function
 func Prepare(ins Instructions, proc *process.Process) error {
