@@ -1,4 +1,4 @@
-package executor
+package client
 
 import (
 	vector "colexecdb/pkg/query_engine/b_vector"

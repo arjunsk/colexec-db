@@ -1,7 +1,7 @@
 package main
 
 import (
-	executor "colexecdb/pkg/client"
+	"colexecdb/pkg/client"
 	vector "colexecdb/pkg/query_engine/b_vector"
 	"context"
 	"fmt"
@@ -11,14 +11,14 @@ import (
 
 func main() {
 
-	exec := executor.NewSQLExecutor()
+	exec := client.NewSQLExecutor()
 	res, _ := exec.Exec(context.Background(), "select mock_0, sqrt(mock_1) from tbl1;")
 
 	var col1 []int32
 	var col2 []int64
 	res.ReadRows(func(cols []*vector.Vector) bool {
-		col1 = append(col1, executor.GetFixedRows[int32](cols[0])...)
-		col2 = append(col2, executor.GetFixedRows[int64](cols[1])...)
+		col1 = append(col1, client.GetFixedRows[int32](cols[0])...)
+		col2 = append(col2, client.GetFixedRows[int64](cols[1])...)
 		return true
 	})
 

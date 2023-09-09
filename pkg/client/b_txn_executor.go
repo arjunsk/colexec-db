@@ -1,4 +1,4 @@
-package executor
+package client
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
