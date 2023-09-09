@@ -1,11 +1,12 @@
 package planner
 
 import (
+	"colexecdb/pkg/query_engine/f_catalog"
 	"errors"
 	"github.com/blastrain/vitess-sqlparser/tidbparser/ast"
 )
 
-func BuildPlan(stmt ast.StmtNode, ctx CompilerContext) (Plan, error) {
+func BuildPlan(stmt ast.StmtNode, ctx catalog.Context) (Plan, error) {
 	switch s := stmt.(type) {
 	case *ast.SelectStmt:
 		return buildSelect(s, ctx)
@@ -16,14 +17,4 @@ func BuildPlan(stmt ast.StmtNode, ctx CompilerContext) (Plan, error) {
 	default:
 		return nil, errors.New("plan not defined")
 	}
-}
-
-func buildInsert(stmt *ast.InsertStmt, ctx CompilerContext) (*QueryPlan, error) {
-	return &QueryPlan{
-		StatementType: INSERT,
-	}, nil
-}
-
-func buildCreateTable(stmt *ast.CreateTableStmt, ctx CompilerContext) (*DDLPlan, error) {
-	return &DDLPlan{}, nil
 }

@@ -1,9 +1,15 @@
 package compile
 
 import (
+	batch "colexecdb/pkg/query_engine/c_batch"
 	"sync"
 )
 import "github.com/panjf2000/ants/v2"
+
+type RunResult struct {
+	AffectedRows uint64
+	Batches      []*batch.Batch
+}
 
 func (c *Compile) Run(_ uint64) (*RunResult, error) {
 	result := &RunResult{
@@ -22,7 +28,7 @@ func (c *Compile) runOnce() error {
 	for i := range c.scope {
 		wg.Add(1)
 		s := c.scope[i]
-		ants.Submit(func() {
+		_ = ants.Submit(func() {
 			errC <- c.run(s)
 			wg.Done()
 		})

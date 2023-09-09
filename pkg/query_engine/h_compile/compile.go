@@ -11,7 +11,24 @@ import (
 	"colexecdb/pkg/storage_engine"
 	"context"
 	"errors"
+	"sync/atomic"
 )
+
+// Compile contains all the information needed for compilation.
+type Compile struct {
+	scope      []*Scope
+	pn         planner.Plan
+	affectRows atomic.Uint64
+	sql        string
+
+	Engine  storage_engine.Engine
+	Ctx     context.Context
+	Process *process.Process
+	stmt    parser.Statement
+
+	//fill is a result writer runs a callback function.
+	fill func(any, *batch.Batch) error
+}
 
 // New is used to new an object of compile
 func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Statement) *Compile {
@@ -49,6 +66,7 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, 
 			},
 		})
 
+		// For returning the final result
 		rs.Instructions = append(rs.Instructions, relalgebra.Instruction{
 			Op: relalgebra.Output,
 			Arg: &output.Argument{
@@ -81,6 +99,10 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, 
 
 func (c *Compile) setAffectedRows(i uint64) {
 	c.affectRows.Store(i)
+}
+
+func (c *Compile) getAffectedRows() uint64 {
+	return c.affectRows.Load()
 }
 
 func (c *Compile) addAffectedRows(i uint64) {

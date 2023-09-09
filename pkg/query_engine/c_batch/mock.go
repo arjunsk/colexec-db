@@ -11,8 +11,7 @@ func MockBatch(colCnt int, rowCnt int) *Batch {
 	bat.rowCount = rowCnt
 
 	for i := 0; i < colCnt; i++ {
-		name := fmt.Sprintf("%s%d", "mock_", i)
-		bat.Attrs[i] = name
+		bat.Attrs[i] = fmt.Sprintf("%s%d", "mock_", i)
 
 		switch i % 20 {
 		case 0:

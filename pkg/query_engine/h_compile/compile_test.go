@@ -21,7 +21,7 @@ func TestCompile_Compile(t *testing.T) {
 
 	stmt, _ := parser.Parse(sql)
 	schema := catalog.MockTableDef(2)
-	compilerCtx := planner.NewMockCompilerContext()
+	compilerCtx := catalog.NewMockSchemaContext()
 	compilerCtx.AppendTableDef("tbl1", schema)
 	execPlan, _ := planner.BuildPlan(stmt, compilerCtx)
 

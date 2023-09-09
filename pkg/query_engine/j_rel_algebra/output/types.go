@@ -6,8 +6,8 @@ import (
 )
 
 type Argument struct {
-	Data interface{}
-	Func func(interface{}, *batch.Batch) error
+	Data any
+	Func func(any, *batch.Batch) error
 }
 
 func (arg *Argument) Free(proc *process.Process, pipelineFailed bool) {

@@ -7,6 +7,13 @@ import (
 	"colexecdb/pkg/storage_engine"
 )
 
+type Pipeline struct {
+	// attrs, column list.
+	attrs []string
+	// orders to be executed
+	instructions relalgebra.Instructions
+}
+
 func New(attrs []string, ins relalgebra.Instructions) *Pipeline {
 	return &Pipeline{
 		instructions: ins,

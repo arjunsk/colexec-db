@@ -2,11 +2,12 @@ package planner
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
+	"colexecdb/pkg/query_engine/f_catalog"
 	"errors"
 	"github.com/blastrain/vitess-sqlparser/tidbparser/ast"
 )
 
-func buildSelect(sel *ast.SelectStmt, ctx CompilerContext) (*QueryPlan, error) {
+func buildSelect(sel *ast.SelectStmt, ctx catalog.Context) (*QueryPlan, error) {
 	q := &QueryPlan{
 		StatementType: SELECT,
 		Params:        make([]Expr, 0),

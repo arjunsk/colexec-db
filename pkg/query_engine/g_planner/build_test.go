@@ -15,7 +15,7 @@ func TestBuildPlan(t *testing.T) {
 
 	// plan_ctx
 	schema := catalog.MockTableDef(2)
-	ctx := NewMockCompilerContext()
+	ctx := catalog.NewMockSchemaContext()
 	ctx.AppendTableDef("tbl1", schema)
 
 	execPlan, err := BuildPlan(stmt, ctx)

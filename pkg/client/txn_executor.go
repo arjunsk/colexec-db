@@ -30,7 +30,7 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	}
 	// get table def
 	schema := catalog.MockTableDef(2)
-	ctx := planner.NewMockCompilerContext()
+	ctx := catalog.NewMockSchemaContext()
 	ctx.AppendTableDef("tbl1", schema)
 
 	// create plan

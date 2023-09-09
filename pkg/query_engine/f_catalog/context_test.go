@@ -1,16 +1,15 @@
-package planner
+package catalog
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
-	catalog "colexecdb/pkg/query_engine/f_catalog"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestMockCompilerContext_Resolve(t *testing.T) {
-	table := catalog.MockTableDef(2)
+	table := MockTableDef(2)
 
-	a := NewMockCompilerContext()
+	a := NewMockSchemaContext()
 	a.AppendTableDef("tbl1", table)
 
 	require.Equal(t, int32(0), a.ResolveColIdx("", "tbl1", "mock_0"))

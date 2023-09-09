@@ -42,6 +42,16 @@ func Append[T any](vec *Vector, val T, isNull bool) error {
 	return nil
 }
 
+func AppendList[T any](vec *Vector, val []T) error {
+	vec.length += len(val)
+
+	col := vec.col.([]T)
+	col = append(col, val...)
+	vec.col = col
+
+	return nil
+}
+
 func (v *Vector) Free() {
 	v.nsp.Clear()
 	v.col = nil
@@ -77,6 +87,10 @@ func (v *Vector) Dup() (*Vector, error) {
 		nsp:    v.nsp.Clone(),
 	}
 	return w, nil
+}
+
+func (v *Vector) GetNsp() *roaring.Bitmap {
+	return v.nsp
 }
 
 func vecToString[T types.FixedSizeT](v *Vector) string {

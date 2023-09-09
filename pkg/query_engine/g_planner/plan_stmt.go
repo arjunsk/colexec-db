@@ -31,6 +31,7 @@ type DdlType uint8
 
 const (
 	DdlCreateTable DdlType = iota
+	DdlCreateIndex
 )
 
 type DDLPlan struct {
