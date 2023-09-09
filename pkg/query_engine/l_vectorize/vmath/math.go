@@ -5,7 +5,8 @@ import (
 	"math"
 )
 
-// Abs Can may be run on GPU using C vector library. But right now it is just a simple loop.
+// Abs returns the absolute value.
+// TODO: Implement vectorized execution using SIMD.
 func Abs[T types.FixedSizeT](in []T) (out []T) {
 	out = make([]T, len(in))
 
