@@ -30,6 +30,7 @@ Hopefully, this should give you a high level overview of how Columnar Execution 
 #### Good Reads
 - [CockroachDB Article](https://www.cockroachlabs.com/blog/how-we-built-a-vectorized-execution-engine/)
 - [A good structure rust project](https://github.com/dylan-p-wong/sql-engine)
+- [SQL Parser](https://github.com/myrp556/yacc_sql/tree/main)
 
 #### Pending Reads
 - [Crate Issue with Links](https://github.com/crate/crate/issues/10063)
