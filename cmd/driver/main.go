@@ -1,7 +1,7 @@
 package main
 
 import (
-	executor "colexecdb/pkg/client"
+	"colexecdb/pkg/client"
 	vector "colexecdb/pkg/query_engine/b_vector"
 	"context"
 	"fmt"
@@ -11,24 +11,24 @@ import (
 
 func main() {
 
-	exec := executor.NewSQLExecutor()
-	res, _ := exec.Exec(context.Background(), "select mock_0, sqrt(mock_1) from tbl1;")
+	exec := client.NewSQLExecutor()
+	res, _ := exec.Exec(context.Background(), "select mock_0, abs(mock_1) from tbl1;")
 
-	var mock0 []int32
-	var mock1 []int64
+	var col1 []int32
+	var col2 []int64
 	res.ReadRows(func(cols []*vector.Vector) bool {
-		mock0 = append(mock0, executor.GetFixedRows[int32](cols[0])...)
-		mock1 = append(mock1, executor.GetFixedRows[int64](cols[1])...)
+		col1 = append(col1, client.GetFixedRows[int32](cols[0])...)
+		col2 = append(col2, client.GetFixedRows[int64](cols[1])...)
 		return true
 	})
 
-	Print(mock0, mock1)
+	Print(col1, col2)
 }
 
-func Print(mock0 []int32, mock1 []int64) {
+func Print(col1 []int32, col2 []int64) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 3, ' ', 0)
-	for i := 0; i < len(mock0); i++ {
-		_, _ = fmt.Fprintf(w, "%d\t%d\n", mock0[i], mock1[i])
+	for i := 0; i < len(col1); i++ {
+		_, _ = fmt.Fprintf(w, "%d\t%d\n", col1[i], col2[i])
 	}
 	_ = w.Flush()
 }

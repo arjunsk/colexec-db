@@ -1,4 +1,4 @@
-package planner
+package queryplan
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
@@ -11,7 +11,7 @@ import (
 func TestBuildPlan(t *testing.T) {
 
 	// ast stmt
-	stmt, _ := parser.Parse("select mock_0, sqrt(mock_1) from tbl1;")
+	stmt, _ := parser.Parse("select mock_0, abs(mock_1) from tbl1;")
 
 	// plan_ctx
 	schema := catalog.MockTableDef(2)

@@ -8,7 +8,7 @@ import (
 
 var supportedOperators = []FuncNew{
 	{
-		functionName: "sqrt",
+		functionName: "abs",
 		overloadFn: Overload{
 			overloadId: 0,
 			args:       []types.T{types.T_int32},
@@ -17,7 +17,7 @@ var supportedOperators = []FuncNew{
 			},
 			newOp: func() ExecuteLogicOfOverload {
 				return func(parameters []*vector.Vector, result *vector.Vector, proc *process.Process, length int) error {
-					return sqrt(parameters, result, proc, length)
+					return abs(parameters, result, proc, length)
 				}
 			},
 		},

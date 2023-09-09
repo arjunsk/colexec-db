@@ -5,12 +5,12 @@ import (
 	"math"
 )
 
-// Sqrt TODO: Connect to rest of the code.
-func Sqrt[T types.FixedSizeT](in []T) (out []T) {
+// Abs Can may be run on GPU using C vector library. But right now it is just a simple loop.
+func Abs[T types.FixedSizeT](in []T) (out []T) {
 	out = make([]T, len(in))
 
 	for i, item := range in {
-		out[i] = T(math.Sqrt(float64(item)))
+		out[i] = T(math.Abs(float64(item)))
 	}
 	return out
 }
