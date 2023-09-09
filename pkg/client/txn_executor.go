@@ -5,8 +5,8 @@ import (
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
-	planner "colexecdb/pkg/query_engine/g_planner"
-	compile "colexecdb/pkg/query_engine/h_compile"
+	queryplan "colexecdb/pkg/query_engine/g_planner"
+	logicalplan "colexecdb/pkg/query_engine/h_compile"
 	"context"
 )
 
@@ -28,21 +28,23 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	if err != nil {
 		return Result{}, err
 	}
-	// get table def
+
+	// get table def from catalog
 	schema := catalog.MockTableDef(2)
 	ctx := catalog.NewMockSchemaContext()
 	ctx.AppendTableDef("tbl1", schema)
 
 	// create plan
-	execPlan, err := planner.BuildPlan(stmt, ctx)
+	execPlan, err := queryplan.BuildPlan(stmt, ctx)
 	if err != nil {
 		return Result{}, err
 	}
 
-	// init compile object
+	// init logical_plan object
 	p := process.New(exec.ctx)
-	c := compile.New(sql, exec.ctx, p, stmt)
+	c := logicalplan.New(sql, exec.ctx, p, stmt)
 
+	// compiles query plan to logical plan
 	var batches []*batch.Batch
 	fillFn := func(a any, bat *batch.Batch) error {
 		if bat != nil {
@@ -51,13 +53,12 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 		}
 		return nil
 	}
-
 	err = c.Compile(exec.ctx, execPlan, fillFn)
 	if err != nil {
 		return Result{}, err
 	}
 
-	// run() compile object
+	// run the logical plan
 	runResult, err := c.Run(0)
 	if err != nil {
 		return Result{}, err
