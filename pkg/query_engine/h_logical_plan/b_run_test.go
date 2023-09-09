@@ -44,7 +44,7 @@ func TestRun(t *testing.T) {
 
 	require.Equal(t, Normal, lp.scope[0].Magic)
 
-	runResult, _ := lp.Run(0)
+	runResult, _ := lp.Run()
 	runResult.Batches = batches
 
 	require.Equal(t, 3, len(runResult.Batches))

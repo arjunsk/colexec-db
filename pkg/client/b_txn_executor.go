@@ -34,13 +34,16 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	ctx := catalog.NewMockSchemaContext()
 	ctx.AppendTableDef("tbl1", schema)
 
-	// create plan
+	// create query plan
 	qp, err := queryplan.BuildPlan(stmt, ctx)
 	if err != nil {
 		return Result{}, err
 	}
 
-	// init logical_plan object
+	// TODO: implement later
+	qp.Optimize(nil)
+
+	// init logical_plan
 	p := process.New(exec.ctx)
 	lp := logicalplan.New(sql, exec.ctx, p, stmt)
 
@@ -59,7 +62,7 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	}
 
 	// run the logical plan
-	runResult, err := lp.Run(0)
+	runResult, err := lp.Run()
 	if err != nil {
 		return Result{}, err
 	}

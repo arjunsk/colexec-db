@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-// Sqrt TODO: Connect to rest of the code.
+// Sqrt Can may be run on GPU
 func Sqrt[T types.FixedSizeT](in []T) (out []T) {
 	out = make([]T, len(in))
 

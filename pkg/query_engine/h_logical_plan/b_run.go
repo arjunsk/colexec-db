@@ -11,7 +11,7 @@ type RunResult struct {
 	Batches      []*batch.Batch
 }
 
-func (c *LogicalPlan) Run(_ uint64) (*RunResult, error) {
+func (c *LogicalPlan) Run() (*RunResult, error) {
 	result := &RunResult{
 		AffectedRows: 0,
 	}
