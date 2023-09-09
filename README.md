@@ -25,6 +25,7 @@ Hopefully, this should give you a high level overview of how Columnar Execution 
 - Documentation
 - Implement a Parquet based Storage Engine/Reader
 - Implement JOIN 
+- Replace `FunctionName` with `FunctionID`
 
 #### Good Reads
 - [CockroachDB Article](https://www.cockroachlabs.com/blog/how-we-built-a-vectorized-execution-engine/)
