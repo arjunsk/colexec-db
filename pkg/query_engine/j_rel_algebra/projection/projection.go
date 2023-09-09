@@ -57,6 +57,8 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 
 func FixProjectionResult(executors []colexec.ExpressionExecutor, rbat *batch.Batch) (err error) {
 
+	//TODO: Understand why we need this code.
+
 	alreadySet := make([]int, len(rbat.Vecs))
 	for i := range alreadySet {
 		alreadySet[i] = -1
