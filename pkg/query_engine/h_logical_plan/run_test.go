@@ -1,12 +1,12 @@
-package compile
+package logicalplan
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
-	planner "colexecdb/pkg/query_engine/g_planner"
-	rel_algebra "colexecdb/pkg/query_engine/j_rel_algebra"
+	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"context"
 	"fmt"
@@ -14,19 +14,19 @@ import (
 	"testing"
 )
 
-func TestCompile_Compile(t *testing.T) {
+func TestRun(t *testing.T) {
 
 	sql := "select mock_0, sqrt(mock_1) from tbl1;"
 	ctx := context.Background()
 
 	stmt, _ := parser.Parse(sql)
 	schema := catalog.MockTableDef(2)
-	compilerCtx := catalog.NewMockSchemaContext()
-	compilerCtx.AppendTableDef("tbl1", schema)
-	execPlan, _ := planner.BuildPlan(stmt, compilerCtx)
+	sctx := catalog.NewMockSchemaContext()
+	sctx.AppendTableDef("tbl1", schema)
+	qp, _ := queryplan.BuildPlan(stmt, sctx)
 
 	process := process.New(context.Background())
-	c := New(sql, ctx, process, stmt)
+	lp := New(sql, ctx, process, stmt)
 
 	var batches []*batch.Batch
 	fillFn := func(a any, bat *batch.Batch) error {
@@ -36,15 +36,15 @@ func TestCompile_Compile(t *testing.T) {
 		}
 		return nil
 	}
-	_ = c.Compile(ctx, execPlan, fillFn)
+	_ = lp.Compile(ctx, qp, fillFn)
 
-	require.Equal(t, 1, len(c.scope))
-	require.Equal(t, rel_algebra.Projection, c.scope[0].Instructions[0].Op)
-	require.Equal(t, 2, len(c.scope[0].Instructions[0].Arg.(*projection.Argument).Es))
+	require.Equal(t, 1, len(lp.scope))
+	require.Equal(t, relalgebra.Projection, lp.scope[0].Instructions[0].Op)
+	require.Equal(t, 2, len(lp.scope[0].Instructions[0].Arg.(*projection.Argument).Es))
 
-	require.Equal(t, Normal, c.scope[0].Magic)
+	require.Equal(t, Normal, lp.scope[0].Magic)
 
-	runResult, _ := c.Run(0)
+	runResult, _ := lp.Run(0)
 	runResult.Batches = batches
 
 	require.Equal(t, 3, len(runResult.Batches))

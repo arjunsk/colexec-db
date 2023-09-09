@@ -1,10 +1,10 @@
-package compile
+package logicalplan
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
 	"colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
-	planner "colexecdb/pkg/query_engine/g_planner"
+	queryplan "colexecdb/pkg/query_engine/g_query_plan"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/output"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
@@ -14,10 +14,10 @@ import (
 	"sync/atomic"
 )
 
-// Compile contains all the information needed for compilation.
-type Compile struct {
+// LogicalPlan contains all the information needed for compilation.
+type LogicalPlan struct {
 	scope      []*Scope
-	pn         planner.Plan
+	pn         queryplan.Plan
 	affectRows atomic.Uint64
 	sql        string
 
@@ -31,8 +31,8 @@ type Compile struct {
 }
 
 // New is used to new an object of compile
-func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Statement) *Compile {
-	c := &Compile{}
+func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Statement) *LogicalPlan {
+	c := &LogicalPlan{}
 	c.Ctx = ctx
 	c.sql = sql
 	c.Process = proc
@@ -42,7 +42,7 @@ func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Sta
 
 // Compile is the entrance of the compute-execute-layer.
 // It generates a scope (logic pipeline) for a query plan.
-func (c *Compile) Compile(ctx context.Context, pn planner.Plan, fill func(any, *batch.Batch) error) (err error) {
+func (c *LogicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func(any, *batch.Batch) error) (err error) {
 
 	c.Ctx = c.Process.Ctx
 	c.pn = pn
@@ -51,9 +51,9 @@ func (c *Compile) Compile(ctx context.Context, pn planner.Plan, fill func(any, *
 	return nil
 }
 
-func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, error) {
+func (c *LogicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*Scope, error) {
 	switch qry := pn.(type) {
-	case *planner.QueryPlan:
+	case *queryplan.QueryPlan:
 		rs := Scope{
 			Magic:        Normal,
 			Plan:         pn,
@@ -83,9 +83,9 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, 
 
 		return []*Scope{&rs}, nil
 
-	case *planner.DDLPlan:
+	case *queryplan.DDLPlan:
 		switch qry.Type {
-		case planner.DdlCreateTable:
+		case queryplan.DdlCreateTable:
 			rs := Scope{
 				Magic:   CreateTable,
 				Plan:    pn,
@@ -97,14 +97,14 @@ func (c *Compile) compileScope(ctx context.Context, pn planner.Plan) ([]*Scope, 
 	return nil, errors.New("unimplemented")
 }
 
-func (c *Compile) setAffectedRows(i uint64) {
+func (c *LogicalPlan) setAffectedRows(i uint64) {
 	c.affectRows.Store(i)
 }
 
-func (c *Compile) getAffectedRows() uint64 {
+func (c *LogicalPlan) getAffectedRows() uint64 {
 	return c.affectRows.Load()
 }
 
-func (c *Compile) addAffectedRows(i uint64) {
+func (c *LogicalPlan) addAffectedRows(i uint64) {
 	c.affectRows.Add(i)
 }

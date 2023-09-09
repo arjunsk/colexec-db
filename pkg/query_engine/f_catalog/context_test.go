@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestMockCompilerContext_Resolve(t *testing.T) {
+func TestMockSchemaContext_Resolve(t *testing.T) {
 	table := MockTableDef(2)
 
 	a := NewMockSchemaContext()

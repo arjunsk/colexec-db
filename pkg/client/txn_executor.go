@@ -5,8 +5,8 @@ import (
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
-	queryplan "colexecdb/pkg/query_engine/g_planner"
-	logicalplan "colexecdb/pkg/query_engine/h_compile"
+	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/h_logical_plan"
 	"context"
 )
 
@@ -35,14 +35,14 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	ctx.AppendTableDef("tbl1", schema)
 
 	// create plan
-	execPlan, err := queryplan.BuildPlan(stmt, ctx)
+	qp, err := queryplan.BuildPlan(stmt, ctx)
 	if err != nil {
 		return Result{}, err
 	}
 
 	// init logical_plan object
 	p := process.New(exec.ctx)
-	c := logicalplan.New(sql, exec.ctx, p, stmt)
+	lp := logicalplan.New(sql, exec.ctx, p, stmt)
 
 	// compiles query plan to logical plan
 	var batches []*batch.Batch
@@ -53,13 +53,13 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 		}
 		return nil
 	}
-	err = c.Compile(exec.ctx, execPlan, fillFn)
+	err = lp.Compile(exec.ctx, qp, fillFn)
 	if err != nil {
 		return Result{}, err
 	}
 
 	// run the logical plan
-	runResult, err := c.Run(0)
+	runResult, err := lp.Run(0)
 	if err != nil {
 		return Result{}, err
 	}
