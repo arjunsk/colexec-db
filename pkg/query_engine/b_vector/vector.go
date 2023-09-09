@@ -42,6 +42,7 @@ func Append[T any](vec *Vector, val T, isNull bool) error {
 	return nil
 }
 
+// AppendList append list when it contains no nulls.
 func AppendList[T any](vec *Vector, val []T) error {
 	vec.length += len(val)
 
