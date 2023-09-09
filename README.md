@@ -24,6 +24,7 @@ Hopefully, this should give you a high level overview of how Columnar Execution 
 - Passing `Attr` to the result `Batch`
 - Documentation
 - Implement a Parquet based Storage Engine/Reader
+- Implement JOIN 
 
 #### Good Reads
 - [CockroachDB Article](https://www.cockroachlabs.com/blog/how-we-built-a-vectorized-execution-engine/)
@@ -35,5 +36,5 @@ Hopefully, this should give you a high level overview of how Columnar Execution 
 - [SIMD](https://15721.courses.cs.cmu.edu/spring2023/slides/08-vectorization.pdf)
 
 #### Disclaimer
-Some of the code could be wrong or buggy. I am also learning about database internals. 
+Some of the code could be wrong or buggy. I am also in the learning phase. 
 If you find a bug, please feel free to raise a PR.
