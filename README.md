@@ -4,7 +4,7 @@
 
 #### Introduction
 - This is a very basic `Vectorized Execution Engine` extracted 
-from [MatrixOne](https://github.com/matrixorigin/matrixone) database.
+from [MatrixOne](https://github.com/matrixorigin/matrixone) database. The main code is in [query engine pkg](pkg/query_engine).
 
 - Some of the packages have be renamed and ordered for easy understanding.
 
