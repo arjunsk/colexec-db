@@ -24,6 +24,15 @@ This should hopefully give you a high level overview of how Columnar Execution W
 - Documentation
 - Implement a Parquet based Storage Engine/Reader
 
+#### Good Reads
+- [CockroachDB Article](https://www.cockroachlabs.com/blog/how-we-built-a-vectorized-execution-engine/)
+- [A good structure rust project](https://github.com/dylan-p-wong/sql-engine)
+
+
+#### Pending Reads
+- [Crate Issue with Links](https://github.com/crate/crate/issues/10063)
+
+
 #### Disclaimer
 Some of the code could be wrong or buggy. I am also learning about database internals. 
 If you find a bug, please feel free to raise a PR.
