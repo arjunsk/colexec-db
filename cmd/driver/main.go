@@ -12,7 +12,7 @@ import (
 func main() {
 
 	exec := client.NewSQLExecutor()
-	res, _ := exec.Exec(context.Background(), "select mock_0, sqrt(mock_1) from tbl1;")
+	res, _ := exec.Exec(context.Background(), "select mock_0, abs(mock_1) from tbl1;")
 
 	var col1 []int32
 	var col2 []int64

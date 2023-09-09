@@ -17,12 +17,12 @@ func MockBatch(colCnt int, rowCnt int) *Batch {
 		case 0:
 			bat.Vecs[i] = vector.NewVec(types.T_int32.ToType())
 			for j := 0; j < rowCnt; j++ {
-				_ = vector.Append[int32](bat.Vecs[i], int32(j), false)
+				_ = vector.Append[int32](bat.Vecs[i], int32(-j), false)
 			}
 		case 1:
 			bat.Vecs[i] = vector.NewVec(types.T_int64.ToType())
 			for j := 0; j < rowCnt; j++ {
-				_ = vector.Append[int64](bat.Vecs[i], int64(j), false)
+				_ = vector.Append[int64](bat.Vecs[i], int64(-j), false)
 			}
 		}
 

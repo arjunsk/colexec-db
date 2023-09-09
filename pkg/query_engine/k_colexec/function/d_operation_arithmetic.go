@@ -8,12 +8,12 @@ import (
 	"math"
 )
 
-func sqrt(parameters []*vector.Vector, result *vector.Vector, proc *process.Process, length int) error {
+func abs(parameters []*vector.Vector, result *vector.Vector, proc *process.Process, length int) error {
 
 	switch parameters[0].GetType().Oid {
 	case types.T_int32:
 		if parameters[0].GetNsp().GetCardinality() == 0 {
-			vecRes := vmath.Sqrt[int32](vector.MustFixedCol[int32](parameters[0]))
+			vecRes := vmath.Abs[int32](vector.MustFixedCol[int32](parameters[0]))
 			_ = vector.AppendList[int32](result, vecRes)
 		} else {
 			for i := 0; i < length; i++ {
@@ -23,7 +23,7 @@ func sqrt(parameters []*vector.Vector, result *vector.Vector, proc *process.Proc
 						return err
 					}
 				} else {
-					ans := math.Sqrt(float64(v))
+					ans := math.Abs(float64(v))
 					if err := vector.Append[int32](result, int32(ans), true); err != nil {
 						return err
 					}
@@ -33,7 +33,7 @@ func sqrt(parameters []*vector.Vector, result *vector.Vector, proc *process.Proc
 
 	case types.T_int64:
 		if parameters[0].GetNsp().GetCardinality() == 0 {
-			vecRes := vmath.Sqrt[int64](vector.MustFixedCol[int64](parameters[0]))
+			vecRes := vmath.Abs[int64](vector.MustFixedCol[int64](parameters[0]))
 			_ = vector.AppendList[int64](result, vecRes)
 		} else {
 			for i := 0; i < length; i++ {
@@ -43,7 +43,7 @@ func sqrt(parameters []*vector.Vector, result *vector.Vector, proc *process.Proc
 						return err
 					}
 				} else {
-					ans := math.Sqrt(float64(v))
+					ans := math.Abs(float64(v))
 					if err := vector.Append[int64](result, int64(ans), true); err != nil {
 						return err
 					}

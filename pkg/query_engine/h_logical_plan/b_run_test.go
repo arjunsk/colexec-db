@@ -16,7 +16,7 @@ import (
 
 func TestRun(t *testing.T) {
 
-	sql := "select mock_0, sqrt(mock_1) from tbl1;"
+	sql := "select mock_0, abs(mock_1) from tbl1;"
 	ctx := context.Background()
 
 	stmt, _ := parser.Parse(sql)
