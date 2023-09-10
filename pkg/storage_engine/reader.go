@@ -17,7 +17,7 @@ func NewMergeReader() *MergeReader {
 	}
 	colCnt := 2
 	for i, _ := range reader.level1 {
-		reader.level1[i] = batch.MockBatch(colCnt, 3)
+		reader.level1[i] = batch.MockBatch(colCnt, 3, i*3)
 	}
 
 	return &reader

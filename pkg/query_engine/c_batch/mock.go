@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func MockBatch(colCnt int, rowCnt int) *Batch {
+func MockBatch(colCnt int, rowCnt int, rowStart int) *Batch {
 	bat := NewWithSize(colCnt)
 	bat.rowCount = rowCnt
 
@@ -16,12 +16,12 @@ func MockBatch(colCnt int, rowCnt int) *Batch {
 		switch i % 20 {
 		case 0:
 			bat.Vecs[i] = vector.NewVec(types.T_int32.ToType())
-			for j := 0; j < rowCnt; j++ {
+			for j := rowStart; j < rowStart+rowCnt; j++ {
 				_ = vector.Append[int32](bat.Vecs[i], int32(-j), false)
 			}
 		case 1:
 			bat.Vecs[i] = vector.NewVec(types.T_int64.ToType())
-			for j := 0; j < rowCnt; j++ {
+			for j := rowStart; j < rowStart+rowCnt; j++ {
 				_ = vector.Append[int64](bat.Vecs[i], int64(-j), false)
 			}
 		}
