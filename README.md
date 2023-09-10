@@ -4,7 +4,10 @@
 
 #### Introduction
 - This is a very basic `Vectorized Execution Engine` extracted 
-from [MatrixOne](https://github.com/matrixorigin/matrixone) database. The main code is in [query engine pkg](pkg/query_engine).
+from [MatrixOne](https://github.com/matrixorigin/matrixone) database. 
+
+- The query engine is in [query engine pkg](pkg/query_engine).
+The core code is in [txn_executor](pkg/client/b_txn_executor.go)
 
 - Some of the packages have be renamed and ordered for easy understanding.
 

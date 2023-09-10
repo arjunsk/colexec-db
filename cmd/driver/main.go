@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	exec := client.NewSQLExecutor()
+	exec := client.New()
 	res, _ := exec.Exec(context.Background(), "select mock_0, abs(mock_1) from tbl1;")
 
 	var col1 []int32

@@ -8,7 +8,7 @@ import (
 type sqlExecutor struct {
 }
 
-func NewSQLExecutor() SQLExecutor {
+func New() SQLExecutor {
 	return &sqlExecutor{}
 }
 
