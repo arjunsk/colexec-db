@@ -15,13 +15,13 @@ func Test1(t *testing.T) {
 
 	col1 := vector.NewVec(types.T_int32.ToType())
 	for i := 0; i < rowCount; i++ {
-		_ = vector.Append[int32](col1, int32(i), false)
+		_ = col1.Append(int32(i), false)
 	}
 	bat.Vecs[0] = col1
 
 	col2 := vector.NewVec(types.T_int32.ToType())
 	for i := 0; i < rowCount; i++ {
-		_ = vector.Append[int32](col2, int32(i), false)
+		_ = col2.Append(int32(i), false)
 	}
 	bat.Vecs[1] = col2
 

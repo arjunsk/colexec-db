@@ -7,11 +7,6 @@ const (
 	T_int64
 )
 
-type Type struct {
-	Oid  T
-	Size int32
-}
-
 func (t T) ToType() Type {
 	var typ Type
 
@@ -25,7 +20,22 @@ func (t T) ToType() Type {
 		panic("Unknown type")
 	}
 	return typ
+}
 
+type Type struct {
+	Oid  T
+	Size int32
+}
+
+func (t *Type) String() string {
+	switch t.Oid {
+	case T_int32:
+		return "INT32"
+	case T_int64:
+		return "INT64"
+	default:
+		panic("Unknown type")
+	}
 }
 
 type FixedSizeT interface {

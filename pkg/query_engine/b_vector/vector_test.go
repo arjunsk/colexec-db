@@ -8,13 +8,13 @@ import (
 
 func Test1(t *testing.T) {
 	vec := NewVec(types.T_int32.ToType())
-	err := Append[int32](vec, 1, false)
+	err := vec.Append(int32(1), false)
 	require.NoError(t, err)
 
-	err = Append[int32](vec, 2, false)
+	err = vec.Append(int32(2), false)
 	require.NoError(t, err)
 
-	err = Append[int32](vec, 0, true)
+	err = vec.Append(int32(0), true)
 	require.NoError(t, err)
 
 	v, null := Get[int32](vec, 0)

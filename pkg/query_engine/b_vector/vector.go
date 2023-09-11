@@ -28,21 +28,30 @@ func NewVec(typ types.Type) *Vector {
 	return v
 }
 
-func Append[T any](vec *Vector, val T, isNull bool) error {
-	length := vec.length
-	vec.length++
+// Append strategy 1
+func (v *Vector) Append(val any, isNull bool) error {
+	length := v.length
+	v.length++
 	if isNull {
-		vec.nsp.Add(uint32(length))
-	} else {
-		//TODO: very simple append instead of mpool based pre-extend etc.
-		col := vec.col.([]T)
-		col = append(col, val)
-		vec.col = col
+		v.nsp.Add(uint32(length))
+	}
+	switch v.typ.Oid {
+	case types.T_int32:
+		col := v.col.([]int32)
+		col = append(col, val.(int32))
+		v.col = col
+	case types.T_int64:
+		col := v.col.([]int64)
+		col = append(col, val.(int64))
+		v.col = col
+	default:
+		return fmt.Errorf("unsupport type %s", v.typ)
 	}
 	return nil
 }
 
 // AppendList append list when it contains no nulls.
+// strategy 2
 func AppendList[T any](vec *Vector, val []T) error {
 	vec.length += len(val)
 

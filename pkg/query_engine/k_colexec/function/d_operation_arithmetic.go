@@ -35,12 +35,12 @@ func absGeneric[T types.FixedSizeT](parameters []*vector.Vector, result *vector.
 		for i := 0; i < length; i++ {
 			v, null := vector.Get[T](parameters[0], uint32(i))
 			if null {
-				if err := vector.Append[T](result, 0, true); err != nil {
+				if err := result.Append(0, true); err != nil {
 					return err
 				}
 			} else {
 				ans := math.Abs(float64(v))
-				if err := vector.Append[T](result, T(ans), false); err != nil {
+				if err := result.Append(T(ans), false); err != nil {
 					return err
 				}
 			}
