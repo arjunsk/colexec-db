@@ -5,7 +5,7 @@ import (
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
 	"context"
@@ -23,7 +23,7 @@ func TestRun(t *testing.T) {
 	schema := catalog.MockTableDef(2)
 	sctx := catalog.NewMockSchemaContext()
 	sctx.AppendTableDef("tbl1", schema)
-	qp, _ := queryplan.BuildPlan(stmt, sctx)
+	qp, _ := logicalplan.BuildPlan(stmt, sctx)
 
 	process := process.New(context.Background())
 	lp := New(sql, ctx, process, stmt)

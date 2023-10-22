@@ -2,12 +2,12 @@ package colexec
 
 import (
 	process "colexecdb/pkg/query_engine/e_process"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	"colexecdb/pkg/query_engine/k_colexec/function"
 	"errors"
 )
 
-func NewExpressionExecutorsFromPlanExpressions(proc *process.Process, planExprs []queryplan.Expr) (executors []ExpressionExecutor, err error) {
+func NewExpressionExecutorsFromPlanExpressions(proc *process.Process, planExprs []logicalplan.Expr) (executors []ExpressionExecutor, err error) {
 	executors = make([]ExpressionExecutor, len(planExprs))
 	for i := range executors {
 		executors[i], err = NewExpressionExecutor(proc, planExprs[i])
@@ -21,23 +21,23 @@ func NewExpressionExecutorsFromPlanExpressions(proc *process.Process, planExprs 
 	return executors, err
 }
 
-func NewExpressionExecutor(proc *process.Process, planExpr queryplan.Expr) (ExpressionExecutor, error) {
+func NewExpressionExecutor(proc *process.Process, planExpr logicalplan.Expr) (ExpressionExecutor, error) {
 	switch t := planExpr.(type) {
-	case *queryplan.ExprCol:
-		typ := planExpr.(*queryplan.ExprCol).Type
+	case *logicalplan.ExprCol:
+		typ := planExpr.(*logicalplan.ExprCol).Type
 		return &ColumnExpressionExecutor{
 			colIdx: t.ColIdx,
 			typ:    typ,
 		}, nil
 
-	case *queryplan.ExprFunc:
+	case *logicalplan.ExprFunc:
 		overload, err := function.GetFunctionById(proc.Ctx, t.Name)
 		if err != nil {
 			return nil, err
 		}
 
 		executor := &FunctionExpressionExecutor{}
-		typ := planExpr.(*queryplan.ExprFunc).Type
+		typ := planExpr.(*logicalplan.ExprFunc).Type
 		if err = executor.Init(proc, len(t.Args), typ, overload.GetExecuteMethod()); err != nil {
 			return nil, err
 		}

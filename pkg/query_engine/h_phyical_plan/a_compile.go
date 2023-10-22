@@ -4,7 +4,7 @@ import (
 	batch "colexecdb/pkg/query_engine/c_batch"
 	"colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/query_engine/j_rel_algebra/output"
 	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
@@ -17,7 +17,7 @@ import (
 // PhysicalPlan contains all the information needed for compilation.
 type PhysicalPlan struct {
 	scope      []*Scope
-	pn         queryplan.Plan
+	pn         logicalplan.Plan
 	affectRows atomic.Uint64
 	sql        string
 
@@ -42,7 +42,7 @@ func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Sta
 
 // Compile is the entrance of the compute-execute-layer.
 // It generates a scope (logic pipeline) for a query plan.
-func (c *PhysicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func(any, *batch.Batch) error) (err error) {
+func (c *PhysicalPlan) Compile(ctx context.Context, pn logicalplan.Plan, fill func(any, *batch.Batch) error) (err error) {
 
 	c.Ctx = c.Process.Ctx
 	c.pn = pn
@@ -51,9 +51,9 @@ func (c *PhysicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func
 	return nil
 }
 
-func (c *PhysicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*Scope, error) {
+func (c *PhysicalPlan) compileScope(ctx context.Context, pn logicalplan.Plan) ([]*Scope, error) {
 	switch qry := pn.(type) {
-	case *queryplan.QueryPlan:
+	case *logicalplan.QueryPlan:
 		rs := Scope{
 			Magic:        Normal,
 			Plan:         pn,
@@ -83,9 +83,9 @@ func (c *PhysicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*
 
 		return []*Scope{&rs}, nil
 
-	case *queryplan.DDLPlan:
+	case *logicalplan.DDLPlan:
 		switch qry.Type {
-		case queryplan.DdlCreateTable:
+		case logicalplan.DdlCreateTable:
 			rs := Scope{
 				Magic:   CreateTable,
 				Plan:    pn,

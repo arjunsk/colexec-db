@@ -2,7 +2,7 @@ package physicalplan
 
 import (
 	process "colexecdb/pkg/query_engine/e_process"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	pipeline "colexecdb/pkg/query_engine/i_pipeline"
 	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
 	"colexecdb/pkg/storage_engine"
@@ -17,7 +17,7 @@ const (
 
 type Scope struct {
 	Magic ScopeType
-	Plan  queryplan.Plan
+	Plan  logicalplan.Plan
 
 	DataSource   *Source
 	Process      *process.Process

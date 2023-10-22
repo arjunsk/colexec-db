@@ -1,4 +1,4 @@
-package queryplan
+package logicalplan
 
 import (
 	"colexecdb/pkg/query_engine/f_catalog"

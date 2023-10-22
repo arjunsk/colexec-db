@@ -1,4 +1,4 @@
-package queryplan
+package logicalplan
 
 type Optimizer interface {
 	Optimize()

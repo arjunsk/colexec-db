@@ -5,7 +5,7 @@ import (
 	parser "colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	physicalplan "colexecdb/pkg/query_engine/h_phyical_plan"
 	"context"
 )
@@ -34,8 +34,8 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	ctx := catalog.NewMockSchemaContext()
 	ctx.AppendTableDef("tbl1", schema)
 
-	// create query plan
-	qp, err := queryplan.BuildPlan(stmt, ctx)
+	// create logical plan
+	qp, err := logicalplan.BuildPlan(stmt, ctx)
 	if err != nil {
 		return Result{}, err
 	}

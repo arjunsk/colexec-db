@@ -2,7 +2,7 @@ package projection
 
 import (
 	process "colexecdb/pkg/query_engine/e_process"
-	queryplan "colexecdb/pkg/query_engine/g_query_plan"
+	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	colexec "colexecdb/pkg/query_engine/k_colexec"
 )
 
@@ -12,7 +12,7 @@ type container struct {
 
 type Argument struct {
 	ctr *container
-	Es  []queryplan.Expr
+	Es  []logicalplan.Expr
 }
 
 func (arg *Argument) Free(proc *process.Process, pipelineFailed bool) {

@@ -1,4 +1,4 @@
-package queryplan
+package logicalplan
 
 import (
 	types "colexecdb/pkg/query_engine/a_types"
