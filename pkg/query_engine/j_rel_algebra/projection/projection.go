@@ -47,7 +47,7 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 		resultBat.Vecs[i] = vec
 	}
 
-	_ = FixProjectionResult(ap.ctr.projExecutors, resultBat)
+	//_ = FixProjectionResult(ap.ctr.projExecutors, resultBat)
 
 	resultBat.SetRowCount(bat.GetRowCount())
 
