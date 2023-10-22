@@ -6,7 +6,7 @@ import (
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
 	queryplan "colexecdb/pkg/query_engine/g_query_plan"
-	physicalplan "colexecdb/pkg/query_engine/h_logical_plan"
+	physicalplan "colexecdb/pkg/query_engine/h_phyical_plan"
 	"context"
 )
 
