@@ -1,4 +1,4 @@
-package logicalplan
+package physicalplan
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"

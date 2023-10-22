@@ -1,4 +1,4 @@
-package logicalplan
+package physicalplan
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
@@ -11,7 +11,7 @@ type RunResult struct {
 	Batches      []*batch.Batch
 }
 
-func (c *LogicalPlan) Run() (*RunResult, error) {
+func (c *PhysicalPlan) Run() (*RunResult, error) {
 	result := &RunResult{
 		AffectedRows: 0,
 	}
@@ -22,7 +22,7 @@ func (c *LogicalPlan) Run() (*RunResult, error) {
 	return result, nil
 }
 
-func (c *LogicalPlan) runOnce() error {
+func (c *PhysicalPlan) runOnce() error {
 	var wg sync.WaitGroup
 	errC := make(chan error, len(c.scope))
 	for i := range c.scope {
@@ -44,7 +44,7 @@ func (c *LogicalPlan) runOnce() error {
 	return nil
 }
 
-func (c *LogicalPlan) run(s *Scope) error {
+func (c *PhysicalPlan) run(s *Scope) error {
 	if s == nil {
 		return nil
 	}

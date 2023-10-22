@@ -6,7 +6,7 @@ import (
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
 	queryplan "colexecdb/pkg/query_engine/g_query_plan"
-	logicalplan "colexecdb/pkg/query_engine/h_logical_plan"
+	physicalplan "colexecdb/pkg/query_engine/h_logical_plan"
 	"context"
 )
 
@@ -43,11 +43,11 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	// TODO: implement later
 	qp.Optimize(nil)
 
-	// init logical_plan
+	// init physical_plan
 	p := process.New(exec.ctx)
-	lp := logicalplan.New(sql, exec.ctx, p, stmt)
+	pp := physicalplan.New(sql, exec.ctx, p, stmt)
 
-	// compiles query plan to logical plan
+	// compiles query plan to physical plan
 	var batches []*batch.Batch
 	fillFn := func(a any, bat *batch.Batch) error {
 		if bat != nil {
@@ -56,13 +56,13 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 		}
 		return nil
 	}
-	err = lp.Compile(exec.ctx, qp, fillFn)
+	err = pp.Compile(exec.ctx, qp, fillFn)
 	if err != nil {
 		return Result{}, err
 	}
 
-	// run the logical plan
-	runResult, err := lp.Run()
+	// run the physical plan
+	runResult, err := pp.Run()
 	if err != nil {
 		return Result{}, err
 	}

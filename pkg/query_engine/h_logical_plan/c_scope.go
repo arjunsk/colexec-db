@@ -1,4 +1,4 @@
-package logicalplan
+package physicalplan
 
 import (
 	process "colexecdb/pkg/query_engine/e_process"
@@ -32,12 +32,12 @@ type Source struct {
 	Reader       storage_engine.Reader
 }
 
-func (s *Scope) CreateTable(c *LogicalPlan) error {
+func (s *Scope) CreateTable(c *PhysicalPlan) error {
 	dbName := ""                               //s.Plan.GetDdl().GetCreateDatabase().GetDatabase()
 	return c.Engine.Create(c.Ctx, dbName, nil) //c.Proc.TxnOperator)
 }
 
-func (s *Scope) Run(c *LogicalPlan) error {
+func (s *Scope) Run(c *PhysicalPlan) error {
 	p := pipeline.New(s.DataSource.Attributes, s.Instructions)
 	if _, err := p.Run(s.DataSource.Reader, s.Process); err != nil {
 		return err

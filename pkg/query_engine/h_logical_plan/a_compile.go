@@ -1,4 +1,4 @@
-package logicalplan
+package physicalplan
 
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
@@ -14,8 +14,8 @@ import (
 	"sync/atomic"
 )
 
-// LogicalPlan contains all the information needed for compilation.
-type LogicalPlan struct {
+// PhysicalPlan contains all the information needed for compilation.
+type PhysicalPlan struct {
 	scope      []*Scope
 	pn         queryplan.Plan
 	affectRows atomic.Uint64
@@ -31,8 +31,8 @@ type LogicalPlan struct {
 }
 
 // New is used to new an object of compile
-func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Statement) *LogicalPlan {
-	c := &LogicalPlan{}
+func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Statement) *PhysicalPlan {
+	c := &PhysicalPlan{}
 	c.Ctx = ctx
 	c.sql = sql
 	c.Process = proc
@@ -42,7 +42,7 @@ func New(sql string, ctx context.Context, proc *process.Process, stmt parser.Sta
 
 // Compile is the entrance of the compute-execute-layer.
 // It generates a scope (logic pipeline) for a query plan.
-func (c *LogicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func(any, *batch.Batch) error) (err error) {
+func (c *PhysicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func(any, *batch.Batch) error) (err error) {
 
 	c.Ctx = c.Process.Ctx
 	c.pn = pn
@@ -51,7 +51,7 @@ func (c *LogicalPlan) Compile(ctx context.Context, pn queryplan.Plan, fill func(
 	return nil
 }
 
-func (c *LogicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*Scope, error) {
+func (c *PhysicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*Scope, error) {
 	switch qry := pn.(type) {
 	case *queryplan.QueryPlan:
 		rs := Scope{
@@ -97,14 +97,14 @@ func (c *LogicalPlan) compileScope(ctx context.Context, pn queryplan.Plan) ([]*S
 	return nil, errors.New("unimplemented")
 }
 
-func (c *LogicalPlan) setAffectedRows(i uint64) {
+func (c *PhysicalPlan) setAffectedRows(i uint64) {
 	c.affectRows.Store(i)
 }
 
-func (c *LogicalPlan) getAffectedRows() uint64 {
+func (c *PhysicalPlan) getAffectedRows() uint64 {
 	return c.affectRows.Load()
 }
 
-func (c *LogicalPlan) addAffectedRows(i uint64) {
+func (c *PhysicalPlan) addAffectedRows(i uint64) {
 	c.affectRows.Add(i)
 }
