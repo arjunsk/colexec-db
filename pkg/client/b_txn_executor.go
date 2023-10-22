@@ -30,9 +30,9 @@ func (exec *txnExecutor) Exec(sql string) (result Result, err error) {
 	}
 
 	// get table def from catalog
-	schema := catalog.MockTableDef(2)
+	tblDef := catalog.MockTableDef(2)
 	ctx := catalog.NewMockSchemaContext()
-	ctx.AppendTableDef("tbl1", schema)
+	ctx.AppendTableDef("tbl1", tblDef)
 
 	// create logical plan (plan builder)
 	lp, err := logicalplan.BuildPlan(stmt, ctx)
