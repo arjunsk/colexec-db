@@ -1,10 +1,10 @@
-package rel_algebra
+package operators
 
 import (
 	"bytes"
 	process "colexecdb/pkg/query_engine/e_process"
-	"colexecdb/pkg/query_engine/j_rel_algebra/output"
-	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
+	"colexecdb/pkg/query_engine/j_operators/output"
+	"colexecdb/pkg/query_engine/j_operators/projection"
 )
 
 var stringFunc = [...]func(any, *bytes.Buffer){

@@ -5,7 +5,7 @@ import (
 	vector "colexecdb/pkg/query_engine/b_vector"
 	batch "colexecdb/pkg/query_engine/c_batch"
 	process "colexecdb/pkg/query_engine/e_process"
-	colexec "colexecdb/pkg/query_engine/k_colexec"
+	expression "colexecdb/pkg/query_engine/k_expression"
 )
 
 func String(arg any, buf *bytes.Buffer) {
@@ -15,7 +15,7 @@ func String(arg any, buf *bytes.Buffer) {
 func Prepare(proc *process.Process, arg any) (err error) {
 	ap := arg.(*Argument)
 	ap.ctr = new(container)
-	ap.ctr.projExecutors, err = colexec.NewExpressionExecutorsFromPlanExpressions(proc, ap.Es)
+	ap.ctr.projExecutors, err = expression.NewExpressionExecutorsFromPlanExpressions(proc, ap.Es)
 
 	return err
 }
@@ -55,7 +55,7 @@ func Call(proc *process.Process, arg any) (process.ExecStatus, error) {
 	return process.ExecNext, nil
 }
 
-func FixProjectionResult(executors []colexec.ExpressionExecutor, rbat *batch.Batch) (err error) {
+func FixProjectionResult(executors []expression.ExpressionExecutor, rbat *batch.Batch) (err error) {
 
 	//TODO: Understand why we need this code.
 
@@ -68,9 +68,9 @@ func FixProjectionResult(executors []colexec.ExpressionExecutor, rbat *batch.Bat
 	for i, oldVec := range rbat.Vecs {
 		if alreadySet[i] < 0 {
 			newVec := (*vector.Vector)(nil)
-			if _, ok := executors[i].(*colexec.ColumnExpressionExecutor); ok {
+			if _, ok := executors[i].(*expression.ColumnExpressionExecutor); ok {
 				newVec, _ = oldVec.Dup()
-			} else if functionExpr, ok := executors[i].(*colexec.FunctionExpressionExecutor); ok {
+			} else if functionExpr, ok := executors[i].(*expression.FunctionExpressionExecutor); ok {
 				newVec = functionExpr.ResultVector
 				functionExpr.ResultVector = vector.NewVec(*functionExpr.ResultVector.GetType())
 			} else {

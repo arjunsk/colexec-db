@@ -6,8 +6,8 @@ import (
 	process "colexecdb/pkg/query_engine/e_process"
 	catalog "colexecdb/pkg/query_engine/f_catalog"
 	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
-	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
-	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
+	operators "colexecdb/pkg/query_engine/j_operators"
+	"colexecdb/pkg/query_engine/j_operators/projection"
 	"context"
 	"fmt"
 	"github.com/stretchr/testify/require"
@@ -39,7 +39,7 @@ func TestRun(t *testing.T) {
 	_ = lp.Compile(ctx, qp, fillFn)
 
 	require.Equal(t, 1, len(lp.scope))
-	require.Equal(t, relalgebra.Projection, lp.scope[0].Instructions[0].Op)
+	require.Equal(t, operators.Projection, lp.scope[0].Instructions[0].Op)
 	require.Equal(t, 2, len(lp.scope[0].Instructions[0].Arg.(*projection.Argument).Es))
 
 	require.Equal(t, Normal, lp.scope[0].Magic)

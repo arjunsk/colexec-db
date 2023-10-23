@@ -3,7 +3,7 @@ package pipeline
 import (
 	batch "colexecdb/pkg/query_engine/c_batch"
 	process "colexecdb/pkg/query_engine/e_process"
-	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
+	operators "colexecdb/pkg/query_engine/j_operators"
 	"colexecdb/pkg/storage_engine"
 )
 
@@ -11,10 +11,10 @@ type Pipeline struct {
 	// attrs, column list.
 	attrs []string
 	// orders to be executed
-	instructions relalgebra.Instructions
+	instructions operators.Operators
 }
 
-func New(attrs []string, ins relalgebra.Instructions) *Pipeline {
+func New(attrs []string, ins operators.Operators) *Pipeline {
 	return &Pipeline{
 		instructions: ins,
 		attrs:        attrs,
@@ -24,7 +24,7 @@ func New(attrs []string, ins relalgebra.Instructions) *Pipeline {
 func (p *Pipeline) Run(r storage_engine.Reader, proc *process.Process) (end bool, err error) {
 
 	var bat *batch.Batch
-	if err = relalgebra.Prepare(p.instructions, proc); err != nil {
+	if err = operators.Prepare(p.instructions, proc); err != nil {
 		return false, err
 	}
 
@@ -41,7 +41,7 @@ func (p *Pipeline) Run(r storage_engine.Reader, proc *process.Process) (end bool
 		}
 
 		proc.SetInputBatch(bat)
-		end, err = relalgebra.Run(p.instructions, proc)
+		end, err = operators.Run(p.instructions, proc)
 		if err != nil {
 			return end, err
 		}

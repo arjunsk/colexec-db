@@ -3,11 +3,11 @@ package projection
 import (
 	process "colexecdb/pkg/query_engine/e_process"
 	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
-	colexec "colexecdb/pkg/query_engine/k_colexec"
+	expression "colexecdb/pkg/query_engine/k_expression"
 )
 
 type container struct {
-	projExecutors []colexec.ExpressionExecutor
+	projExecutors []expression.ExpressionExecutor
 }
 
 type Argument struct {

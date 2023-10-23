@@ -5,9 +5,9 @@ import (
 	"colexecdb/pkg/query_engine/d_parser"
 	process "colexecdb/pkg/query_engine/e_process"
 	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
-	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
-	"colexecdb/pkg/query_engine/j_rel_algebra/output"
-	"colexecdb/pkg/query_engine/j_rel_algebra/projection"
+	operators "colexecdb/pkg/query_engine/j_operators"
+	"colexecdb/pkg/query_engine/j_operators/output"
+	"colexecdb/pkg/query_engine/j_operators/projection"
 	"colexecdb/pkg/storage_engine"
 	"context"
 	"errors"
@@ -57,18 +57,18 @@ func (c *PhysicalPlan) compileScope(ctx context.Context, pn logicalplan.Plan) ([
 		rs := Scope{
 			Magic:        Normal,
 			Plan:         pn,
-			Instructions: make(relalgebra.Instructions, 0),
+			Instructions: make(operators.Operators, 0),
 		}
-		rs.Instructions = append(rs.Instructions, relalgebra.Instruction{
-			Op: relalgebra.Projection,
+		rs.Instructions = append(rs.Instructions, operators.Operator{
+			Op: operators.Projection,
 			Arg: &projection.Argument{
 				Es: qry.Params,
 			},
 		})
 
 		// For returning the final result
-		rs.Instructions = append(rs.Instructions, relalgebra.Instruction{
-			Op: relalgebra.Output,
+		rs.Instructions = append(rs.Instructions, operators.Operator{
+			Op: operators.Output,
 			Arg: &output.Argument{
 				Func: c.fill,
 			},

@@ -4,7 +4,7 @@ import (
 	process "colexecdb/pkg/query_engine/e_process"
 	logicalplan "colexecdb/pkg/query_engine/g_logical_plan"
 	pipeline "colexecdb/pkg/query_engine/i_pipeline"
-	relalgebra "colexecdb/pkg/query_engine/j_rel_algebra"
+	operators "colexecdb/pkg/query_engine/j_operators"
 	"colexecdb/pkg/storage_engine"
 )
 
@@ -21,7 +21,7 @@ type Scope struct {
 
 	DataSource   *Source
 	Process      *process.Process
-	Instructions relalgebra.Instructions
+	Instructions operators.Operators
 	affectedRows uint64
 }
 

@@ -1,4 +1,4 @@
-package colexec
+package expression
 
 import (
 	vector "colexecdb/pkg/query_engine/b_vector"
